@@ -1,0 +1,57 @@
+---
+title: "About Me"
+description: |
+  Welcome to the website. I am a data scientist who helps insurance companies do customers profiling.
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
+![](longxiangwu.png){width=50%}
+
+<center>
+:::: {style="display: flex;"}
+
+::: {}
+
+![Cavitation phenomenon](images/bubbles.JPG){width=90%}
+
+![Sunset in Maynooth Kildare](images/sunset.jpg){width=90%}
+
+:::
+
+::: {}
+
+![A train station in Greenfield Maynooth](images/train.jpg){width=70%}
+
+![A mathematical sculpture in front of mathematics department of Stony Brook University](images/sculpture.JPG){width=70%}
+
+:::
+
+::::
+
+
+</center>
+
+## Education
+
+MSc in Data Science and Analytics, 2024
+National University of Ireland, Maynooth
+
+
+BEng in Naval Architecture and Ocean Engineering, 2012
+Naval University of Engineering
+
+## Work Experience
+
+
+## Contact
+
+The easiest way to contact me, is to add my WeChat ['@Xiang'](images/xiang.png)! If you are interested in collaboration, feel free to [email me](longxiangwu@outlook.com).
+

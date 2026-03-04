@@ -1,0 +1,2631 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+
+  <!--radix_placeholder_meta_tags-->
+  <title>London Marathon Data Analysis</title>
+
+  <meta property="description" itemprop="description" content="This is a project of analysing London Marathon datasets, accomplished by a team led by the author."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2023-12-13"/>
+  <meta property="article:created" itemprop="dateCreated" content="2023-12-13"/>
+  <meta name="article:author" content="Longxiang Wu  "/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="London Marathon Data Analysis"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="This is a project of analysing London Marathon datasets, accomplished by a team led by the author."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="London Marathon Data Analysis"/>
+  <meta property="twitter:description" content="This is a project of analysing London Marathon datasets, accomplished by a team led by the author."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["London Marathon Data Analysis"]},{"type":"character","attributes":{},"value":["This is a project of analysing London Marathon datasets, accomplished by a team led by the author.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Longxiang Wu  "]}]}]},{"type":"character","attributes":{},"value":["2023-12-13"]},{"type":"character","attributes":{},"value":["London.jpg"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article","html_document"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding"]}},"value":[{"type":"character","attributes":{},"value":["hide"]}]}]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["buildingdistill_files/anchor-4.2.2/anchor.min.js","buildingdistill_files/bowser-1.9.3/bowser.min.js","buildingdistill_files/distill-2.2.21/template.v2.js","buildingdistill_files/figure-html5/unnamed-chunk-15-1.png","buildingdistill_files/figure-html5/unnamed-chunk-17-1.png","buildingdistill_files/figure-html5/unnamed-chunk-19-1.png","buildingdistill_files/figure-html5/unnamed-chunk-20-1.png","buildingdistill_files/figure-html5/unnamed-chunk-21-1.png","buildingdistill_files/figure-html5/unnamed-chunk-23-1.png","buildingdistill_files/figure-html5/unnamed-chunk-25-1.png","buildingdistill_files/figure-html5/unnamed-chunk-25-2.png","buildingdistill_files/figure-html5/unnamed-chunk-26-1.png","buildingdistill_files/figure-html5/unnamed-chunk-28-1.png","buildingdistill_files/figure-html5/unnamed-chunk-28-2.png","buildingdistill_files/figure-html5/unnamed-chunk-29-1.png","buildingdistill_files/figure-html5/unnamed-chunk-31-1.png","buildingdistill_files/figure-html5/unnamed-chunk-31-2.png","buildingdistill_files/figure-html5/unnamed-chunk-32-1.png","buildingdistill_files/figure-html5/unnamed-chunk-34-1.png","buildingdistill_files/figure-html5/unnamed-chunk-34-2.png","buildingdistill_files/figure-html5/unnamed-chunk-36-1.png","buildingdistill_files/figure-html5/unnamed-chunk-38-1.png","buildingdistill_files/figure-html5/unnamed-chunk-39-1.png","buildingdistill_files/figure-html5/unnamed-chunk-4-1.png","buildingdistill_files/figure-html5/unnamed-chunk-41-1.png","buildingdistill_files/figure-html5/unnamed-chunk-42-1.png","buildingdistill_files/figure-html5/unnamed-chunk-43-1.png","buildingdistill_files/figure-html5/unnamed-chunk-45-1.png","buildingdistill_files/figure-html5/unnamed-chunk-46-1.png","buildingdistill_files/figure-html5/unnamed-chunk-47-1.png","buildingdistill_files/figure-html5/unnamed-chunk-49-1.png","buildingdistill_files/figure-html5/unnamed-chunk-5-1.png","buildingdistill_files/figure-html5/unnamed-chunk-50-1.png","buildingdistill_files/figure-html5/unnamed-chunk-51-1.png","buildingdistill_files/figure-html5/unnamed-chunk-53-1.png","buildingdistill_files/header-attrs-2.30/header-attrs.js","buildingdistill_files/jquery-3.6.0/jquery-3.6.0.js","buildingdistill_files/jquery-3.6.0/jquery-3.6.0.min.js","buildingdistill_files/jquery-3.6.0/jquery-3.6.0.min.map","buildingdistill_files/popper-2.6.0/popper.min.js","buildingdistill_files/tippy-6.2.7/tippy-bundle.umd.min.js","buildingdistill_files/tippy-6.2.7/tippy-light-border.css","buildingdistill_files/tippy-6.2.7/tippy.css","buildingdistill_files/tippy-6.2.7/tippy.umd.min.js","buildingdistill_files/webcomponents-2.0.0/webcomponents.js","London.jpg"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+    font-size: 100%;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  hr.section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0px;
+  }
+
+
+  d-byline {
+    border-top: none;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+    border-top: none;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  /* tweak for Pandoc numbered line within distill */
+  d-article pre.numberSource code > span {
+      left: -2em;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // separator
+    var separator = '<hr class="section-separator" style="clear: both"/>';
+    // prepend separator above appendix
+    $('.d-byline').before(separator);
+    $('.d-article').before(separator);
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme, except when numbering line
+    // in code chunk
+    $('pre:not(.numberLines) code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        var author_name = front_matter.authors[i].author
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', author_name ? 'ORCID ID for ' + author_name : 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="buildingdistill_files/header-attrs-2.30/header-attrs.js"></script>
+  <script src="buildingdistill_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="buildingdistill_files/popper-2.6.0/popper.min.js"></script>
+  <link href="buildingdistill_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="buildingdistill_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="buildingdistill_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="buildingdistill_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="buildingdistill_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="buildingdistill_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="buildingdistill_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"London Marathon Data Analysis","description":"This is a project of analysing London Marathon datasets, accomplished by a team led by the author.","authors":[{"author":"Longxiang Wu  ","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-12-13T00:00:00.000+08:00","citationText":"Wu, 2023"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>London Marathon Data Analysis</h1>
+
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>This is a project of analysing London Marathon datasets, accomplished by a team led by the author.</p></p>
+</div>
+
+<div class="d-byline">
+  Longxiang Wu  
+  
+<br/>2023-12-13
+</div>
+
+<div class="d-article">
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>gridExtra</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://pkg.robjhyndman.com/forecast/'>forecast</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://zoo.R-Forge.R-project.org/'>zoo</a></span><span class='op'>)</span></span>
+<span><span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"nrennie/LondonMarathon"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>winners</span>, package <span class='op'>=</span> <span class='st'>"LondonMarathon"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>london_marathon</span>, package <span class='op'>=</span> <span class='st'>"LondonMarathon"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h1 class="tabset" id="project-outline">Project outline</h1>
+<h2 id="introduction">Introduction</h2>
+<h3 id="what-is-the-data-about">What is the data about?</h3>
+<p>The London Marathon, or the TCS London Marathon, is a truly special event that brings people from all walks of life together. It was the brainchild of visionaries Chris Brasher and John Disley back in 1981 and has since become the UK’s second-largest annual road race, second only to the famous Great North Run in Newcastle.</p>
+<p>Usually happening in April, the marathon had a temporary switch to October in 2020, 2021, and 2022 due to the challenges posed by the COVID-19 pandemic. The course itself is known for its mostly flat terrain, winding its way around the beautiful River Thames, starting at Blackheath and ending with a grand finish at The Mall.</p>
+<p>But the London Marathon isn’t just a race; it’s a melting pot of experiences. There’s the mass race, where people of all fitness levels challenge themselves and relish the thrill of completing a marathon. For elite long-distance runners, both men and women, there are professional races showcasing top-tier athleticism. Wheelchair races provide a platform for elite-level competition among both men and women.</p>
+<p>Now, let’s dive into the details of the marathon with the comprehensive data:</p>
+<p>London Marathon Data:</p>
+<ul>
+<li>This dataset spills the beans on everything from the number of applicants to accepted participants, starters, finishers, funds raised, and the official charities associated with each year.</li>
+</ul>
+<p>Winner Data:</p>
+<ul>
+<li>The second set of data gives us the lowdown on the winners in different categories over the years, including details like the category, year, the winning athlete’s name, nationality, and their finishing time.</li>
+</ul>
+<p>What truly sets the London Marathon apart is its heartwarming philanthropic side. Participants aren’t just running for personal glory; they’re making a difference. Since its start, the marathon has raised over £1 billion for various charities. In 2019 alone, an incredible £66.4 million was raised, marking it as the highest single-day fundraising event in the marathon’s history.</p>
+<p>So, as the London Marathon continues to capture hearts and inspire runners worldwide, it’s not just a race; it’s a legacy of community, achievement.</p>
+<h3 id="questions-that-we-will-look-at-and-the-methods-we-used">Questions that we will look at and the methods we used</h3>
+<ol type="1">
+<li><p>Analyzing Trends in Winning Times Over the Years:
+Our examination of winning times involves creating time series plots for each category or utilizing regression analysis to identify significant trends. Through careful comparison and the use of visualizations, we aim to uncover patterns and changes in winning times across various categories.
+Exploring Wheelchair Winners’ Performances:
+Shifting our focus to inclusivity, we analyze the performances of wheelchair winners to understand how their achievements have evolved. A detailed examination of winning times helps us visualize trends, celebrating the success of wheelchair participants in the marathon.</p></li>
+<li><p>Comparing Winning Times Between Categories:
+Using t-tests or analysis of variance (ANOVA), we compare winning times between different categories such as Men vs. Women and Wheelchair Men vs. Wheelchair Women. This analysis enables the exploration of variations in performance and identification of any significant differences between these categories.</p></li>
+<li><p>Correlation Analysis:
+To delve deeper into the relationships within the data, we conduct correlation analysis.</p></li>
+<li><p>In our exploration of the rich history of the London Marathon, we delve into a detailed examination of different aspects. To begin, let’s uncover the evolving trends in marathon participation over the years by closely examining changes in the number of applicants and accepted participants. To give these numbers context and meaning, we calculate the percentage of participants who moved from being accepted to actually starting the race and, subsequently, the percentage of those starters who successfully finished. This analysis aims to reveal any noticeable trends or patterns, breathing life into the raw numbers.</p></li>
+</ol>
+<p>In the realm of inclusivity, we shift our focus to wheelchair winners, seeking to understand how their performances have evolved over the years. Through a detailed analysis of winning times, we aim to visualize trends and patterns, celebrating the achievements of wheelchair participants in the marathon.</p>
+<p>Turning our attention to the marathon heroes, we delve into the winner analysis. The spotlight is on the most successful marathon winners, and we aim to understand how their performances have evolved over time. By examining variables such as nationality, winning times, and identifying any discernible patterns, Visualizing winning times over the years adds a vivid layer to this exploration.</p>
+<p>Geographical analysis becomes our compass as we investigate trends or patterns in the nationalities of winners. Employing visualizations through maps, we seek to represent the distribution of winners’ nationalities, painting a global picture of the marathon’s diverse champions.</p>
+<p>In the financial realm, we track the yearly fundraising growth, exploring how the total fundraising amount has changed annually. Utilizing a line chart, we aim to capture the financial heartbeat of the London Marathon, identifying any significant spikes or drops and understanding the financial narrative that accompanies this iconic event.</p>
+<p>we delve into long-term charity partnerships. By identifying charities that have consistently participated, we analyze their fundraising trends over time. This exploration unveils the enduring commitment of these charitable partners to the London Marathon and the impact of their contributions.</p>
+<p>Lastly, we conduct a comparative analysis to understand how the number of male and female participants has changed over the years. Through visualizations, we aim to illustrate the evolving dynamics of gender participation in the London Marathon, showcasing the inclusive spirit of this remarkable event.</p>
+<h3 id="what-information-does-the-data-contain-cases-variables-how-was-it-collected">What information does the data contain? Cases, variables? How was it collected?</h3>
+<p>The data provided gives us insights into the London Marathon, offering details on the number of applicants, accepted participants, starters, finishers, funds raised, and the official charities involved for each year. Additionally, we have separate information on the winners across different categories such as Men, Women, Wheelchair Men, and Wheelchair Women throughout the years.</p>
+<p>Let’s break down the key aspects:</p>
+<p>Cases: Each row in the datasets represents a specific year of the London Marathon. There are 42 entries in the “London Marathon Data” and 165 entries in the “Winner.csv” data.</p>
+<p>Variables in London Marathon Data:</p>
+<ul>
+<li>Date: Reflecting the date of the London Marathon.</li>
+<li>Year: Indicating the corresponding year of the London Marathon.</li>
+<li>Applicants: The count of individuals applying to participate in the marathon.</li>
+<li>Accepted: The number of applicants who secured a spot to participate.</li>
+<li>Starters: The count of participants who initiated the marathon.</li>
+<li>Finishers: The number of participants successfully completing the marathon.</li>
+<li>Raised: The total amount of money raised during the marathon.</li>
+<li>Official Charity: The designated charity associated with the marathon for that specific year.</li>
+</ul>
+<p>Variables in Winner Data:</p>
+<ul>
+<li>Category: Specifies the category of the winner (Men, Women, Wheelchair Men, Wheelchair Women).</li>
+<li>Year: Denoting the year when the London Marathon took place.</li>
+<li>Athlete: The name of the winning athlete.</li>
+<li>Nationality: The country of origin of the winning athlete.</li>
+<li>Time: The duration taken by the winning athlete to complete the marathon.</li>
+</ul>
+<p>How was it collected?</p>
+<ul>
+<li>The data seems to have been collected over the years, possibly sourced from official records, the official website of the London Marathon, event organizers, media outlets such as BBC, and other reliable sources associated with the event. The information could have been compiled from participant registrations, event statistics, official reports, and media coverage.</li>
+</ul>
+<h2 id="data-wrangling">Data Wrangling</h2>
+<h4 id="which-subset-of-the-data-is-relevant-to-our-research-question-have-we-filtered-out-any-observations-from-the-analysis-have-we-created-new-variables">Which subset of the data is relevant to our research question? Have we filtered out any observations from the analysis? Have we created new variables?</h4>
+<p>For the winners dataset, all variables and observations are relevant. For the london_marathon dataset, only variables Year, Applicants, Accepted, Starters, Finishers are relevant to our research questions.</p>
+<p>For the winners dataset, no observation is filtered out. For the london_marathon dataset, we filtered out the observation in year 2020-2022.</p>
+<p>We created new variables, which are ratio of accepted, ratio of starters, and ratio of finishers, in the london_marathon dataset.</p>
+<h3 id="are-there-missing-values">Are there missing values?</h3>
+<p>The winners dataset dos not contain any missing values, but the london_marathon dataset does. There are many methods to filling missing values. But we chose not to adopt a specific one, since those values are missing systematically. No appropriate appllys except we were able to figure out why they are missed.</p>
+<h3 id="do-variables-have-appropriate-type">Do variables have appropriate type?</h3>
+<p>Here is the data types summary.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yihui.org/knitr/'>knitr</a></span><span class='op'>)</span></span>
+<span><span class='va'>table</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='st'>'Column'</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Category'</span>,<span class='st'>'Year'</span>,<span class='st'>'Athlete'</span>,<span class='st'>'Nationality'</span>,<span class='st'>'Time'</span><span class='op'>)</span>, <span class='st'>'Class'</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'character'</span>,<span class='st'>'integer'</span>,<span class='st'>'character'</span>,<span class='st'>'character'</span>,<span class='st'>'character'</span><span class='op'>)</span>, <span class='st'>'Description'</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Category of race'</span>,<span class='st'>'Year'</span>,<span class='st'>'Name of the winner'</span>,<span class='st'>'Nationality of the winner'</span>,<span class='st'>'Winning time'</span><span class='op'>)</span>,<span class='st'>'Example'</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Men'</span>,<span class='fl'>1981</span>,<span class='st'>'Dick Beardsley(Tie)'</span>,<span class='st'>'United States'</span>, <span class='st'>'02:11:48'</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>table</span>, caption <span class='op'>=</span> <span class='st'>"Winners"</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 1: </span>Winners</caption>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 14%" />
+<col style="width: 38%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Class</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Category</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Category of race</td>
+<td style="text-align: left;">Men</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Year</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Year</td>
+<td style="text-align: left;">1981</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Athlete</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Name of the winner</td>
+<td style="text-align: left;">Dick Beardsley(Tie)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nationality</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Nationality of the winner</td>
+<td style="text-align: left;">United States</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Time</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Winning time</td>
+<td style="text-align: left;">02:11:48</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>table2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='st'>'Column'</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Date'</span>,<span class='st'>'Year'</span>,<span class='st'>'Applicants'</span>,<span class='st'>'Accepted'</span>,<span class='st'>'Starters'</span>,<span class='st'>'Finishers'</span>,<span class='st'>'Raised'</span>,<span class='st'>'Official.charity'</span><span class='op'>)</span>,<span class='st'>'Class'</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'character'</span>,<span class='st'>'integer'</span>,<span class='st'>'integer'</span>,<span class='st'>'integer'</span>,<span class='st'>'integer'</span>,<span class='st'>'integer'</span>,<span class='st'>'integer'</span>,<span class='st'>'character'</span><span class='op'>)</span>,<span class='st'>'Description'</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Date of the race'</span>,<span class='st'>'Year'</span>,<span class='st'>'Number of people who applied'</span>,<span class='st'>'Number of people accepted'</span>,<span class='st'>'Number of people who started'</span>,<span class='st'>'Number of people who finished'</span>,<span class='st'>'Amount raised for charity(£ millions)'</span>,<span class='st'>'Official charity'</span><span class='op'>)</span>,<span class='st'>'Example'</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'1981-03-29'</span>,<span class='st'>'1981'</span>,<span class='st'>'20000'</span>,<span class='st'>'7747'</span>,<span class='st'>'7055'</span>,<span class='st'>'6255'</span>,<span class='st'>'46.5'</span>,<span class='st'>'SportsAid'</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>table2</span>, caption <span class='op'>=</span> <span class='st'>"London Marathon"</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 1: </span>London Marathon</caption>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 13%" />
+<col style="width: 50%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Class</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Date</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Date of the race</td>
+<td style="text-align: left;">1981-03-29</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Year</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Year</td>
+<td style="text-align: left;">1981</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Applicants</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Number of people who applied</td>
+<td style="text-align: left;">20000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Accepted</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Number of people accepted</td>
+<td style="text-align: left;">7747</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Starters</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Number of people who started</td>
+<td style="text-align: left;">7055</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Finishers</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Number of people who finished</td>
+<td style="text-align: left;">6255</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Raised</td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Amount raised for charity(£ millions)</td>
+<td style="text-align: left;">46.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Official.charity</td>
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">Official charity</td>
+<td style="text-align: left;">SportsAid</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="are-there-any-strange-aspects-to-the-data">Are there any strange aspects to the data?</h3>
+<p>In the london_marathon dataset, observation of number of applicants in year 1981-2012 are in a unit of 1000. And observations of number of applicants, accepted, starters, and finishers in year 2020 are abnormally low.</p>
+<h2 id="winnersanalysis-conclusions">Winners(analysis &amp; conclusions)</h2>
+<h3 id="anlysis-of-winners-dataset">Anlysis of winners dataset</h3>
+Overview of the dataset
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>winners</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 6 × 5
+  Category  Year Athlete              Nationality    Time      
+  &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                &lt;chr&gt;          &lt;times&gt;   
+1 Men       1981 Dick Beardsley (Tie) United States  0.09152778
+2 Men       1981 Inge Simonsen (Tie)  Norway         0.09152778
+3 Men       1982 Hugh Jones           United Kingdom 0.08986111
+4 Men       1983 Mike Gratton         United Kingdom 0.09008102
+5 Men       1984 Charlie Spedding     United Kingdom 0.09024306
+6 Men       1985 Steve Jones          United Kingdom 0.08907407</code></pre>
+</div>
+<h4 id="trends-in-winning-times-over-the-year">Trends in winning times over the year</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>winners_data</span> <span class='op'>&lt;-</span> <span class='va'>winners</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Time<span class='op'>=</span><span class='fl'>24</span><span class='op'>*</span><span class='va'>Time</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Year</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Year</span><span class='op'>)</span></span>
+<span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Time</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Time</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># Create time series plots for all categories with captions</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>winners_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span>, y <span class='op'>=</span> <span class='va'>Time</span>, color <span class='op'>=</span> <span class='va'>Category</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='st'>"Time Trends - All Categories"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span><span class='op'>(</span><span class='st'>"Year"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span><span class='op'>(</span><span class='st'>"Winning Time (in hours)"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>caption <span class='op'>=</span> <span class='st'>"Figure 1: Time trends in winning times for different categories over the years."</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-4-1.png" alt="" width="624" /></p>
+</div>
+<p>Men and Women:</p>
+<p>Both Men and Women categories show a relatively linear trend over the years. For Men, the winning time decreases from around 0.09 to 0.08, indicating a consistent improvement in performance. Similarly, for Women, the winning time decreases from approximately 0.104 to 0.096, suggesting a trend of faster winning times.</p>
+<p>Wheelchair Men and Wheelchair Women:</p>
+<p>The plot reveals a substantial drop in winning times for both Wheelchair Men and Wheelchair Women over the years. Wheelchair Men’s winning time decreases from 0.1389 to 0.06, indicating a significant performance improvement. Wheelchair Women’s winning time also decreases from 0.1868 to 0.069, reflecting a substantial and consistent improvement.</p>
+<p>The overall trend suggests that there has been an improvement in athletic performance across all categories over the years, with notable drops in winning times.</p>
+<h4 id="compare-winning-times-between-different-categories-i.e.-how-much-difference-there-is-between-performance-of-men-and-women">Compare winning times between different categories (i.e. How much difference there is between performance of men and women?)</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/boxplot.html'>boxplot</a></span><span class='op'>(</span><span class='va'>Time</span> <span class='op'>~</span> <span class='va'>Category</span>, data <span class='op'>=</span> <span class='va'>winners_data</span>, desc<span class='op'>=</span> <span class='cn'>T</span>,main<span class='op'>=</span><span class='st'>"Boxplots of Winning Time of Each Category"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-5-1.png" alt="" width="624" /></p>
+</div>
+<p>From this plot, we can see there is difference of performance between men and women.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># t-test for Men vs. Women</span></span>
+<span><span class='va'>t_test_men_women</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='va'>Time</span> <span class='op'>~</span> <span class='va'>Category</span>, data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>winners_data</span>, <span class='va'>Category</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Men"</span>, <span class='st'>"Women"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>t_test_men_women</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+    Welch Two Sample t-test
+
+data:  Time by Category
+t = -20.803, df = 72.907, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means between group Men and group Women is not equal to 0
+95 percent confidence interval:
+ -0.2846805 -0.2349011
+sample estimates:
+  mean in group Men mean in group Women 
+           2.118086            2.377877 </code></pre>
+</div>
+<p>t-value: The t-value of -21.25 is highly significant. It indicates that the difference in mean finishing times between Men and Women is substantial, and it is unlikely to be due to random chance. The negative sign suggests that, on average, Men finish the marathon faster than Women.</p>
+<p>Degrees of Freedom: The degrees of freedom are approximately 69.816, calculated using Welch’s correction for unequal variances.</p>
+<p>Hypotheses:</p>
+<p>Null Hypothesis (H0): The mean winning time for Men is equal to the mean winning time for Women. μ(Men) = μ(Women)</p>
+<p>Alternative Hypothesis (H1): The mean winning time for Men is different from the mean winning time for Women. μ(Men) ≠ μ(Women)</p>
+<p>p-value: The p-value is extremely small (&lt; 2.2e-16), indicating strong evidence against the null hypothesis. A low p-value indicates that the observed difference in mean winning times between Men and Women is highly unlikely to be due to random chance.</p>
+<p>Confidence Interval: The 95% confidence interval (-0.01194160 to -0.00989228) provides a range where the true difference in mean finishing times between Men and Women is likely to be found. Since this range doesn’t include zero, it supports the idea that there is a significant difference.</p>
+<p>Sample Estimates: The mean winning time for Men (0.08837516) is significantly different from the mean winning time for Women (0.09929210).</p>
+<p>Conclusion: Given the very low p-value, we reject the null hypothesis. There is strong statistical evidence to suggest that there is a significant difference in mean winning times between Men and Women. The negative mean difference in the confidence interval indicates that, on average, Men have a lower winning time compared to Women.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># t-test for Wheelchair Men vs. Wheelchair Women</span></span>
+<span><span class='va'>t_test_wheelchair</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></span><span class='op'>(</span><span class='va'>Time</span> <span class='op'>~</span> <span class='va'>Category</span>, data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>winners_data</span>, <span class='va'>Category</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Wheelchair Men"</span>, <span class='st'>"Wheelchair Women"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>t_test_wheelchair</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+    Welch Two Sample t-test
+
+data:  Time by Category
+t = -3.7261, df = 73.369, p-value = 0.0003796
+alternative hypothesis: true difference in means between group Wheelchair Men and group Wheelchair Women is not equal to 0
+95 percent confidence interval:
+ -0.5848727 -0.1772591
+sample estimates:
+  mean in group Wheelchair Men mean in group Wheelchair Women 
+                      1.730743                       2.111809 </code></pre>
+</div>
+<p>t-value: The t-value is -3.684, indicating a substantial difference between the mean winning times of Wheelchair Men and Wheelchair Women. The negative sign suggests that, on average, Wheelchair Women have a higher winning time.</p>
+<p>Degrees of Freedom (df): The degrees of freedom are 66.574, calculated using Welch’s method.</p>
+<p>Null Hypothesis (H0): The mean winning times for Wheelchair Men and Wheelchair Women are equal. Alternative Hypothesis (HA): The mean winning times for Wheelchair Men and Wheelchair Women are not equal.</p>
+<p>p-value = 0.0004625: The p-value is less than 0.05, indicating that there is strong evidence to reject the null hypothesis.</p>
+<p>95 percent confidence interval: The range -0.025672067 to -0.007628028 represents the range within which we can be 95% confident that the true difference in means lies. In this case, it suggests that the mean winning time for Wheelchair Women is likely to be between 0.0076 and 0.0256 higher than that of Wheelchair Men.</p>
+<p>With a small p-value and a negative t-value, there is evidence to suggest that there is a statistically significant difference in winning times between Wheelchair Men and Wheelchair Women. The mean winning time for Wheelchair Women appears to be significantly higher than that for Wheelchair Men. The 95% confidence interval provides a range for the magnitude of this difference.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># ANOVA for Men vs. Women vs. Wheelchair Men vs. Wheelchair Women</span></span>
+<span><span class='va'>anova_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/aov.html'>aov</a></span><span class='op'>(</span><span class='va'>Time</span> <span class='op'>~</span> <span class='va'>Category</span>, data <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>winners_data</span>, <span class='va'>Category</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Men"</span>, <span class='st'>"Women"</span>, <span class='st'>"Wheelchair Men"</span>, <span class='st'>"Wheelchair Women"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>anova_model</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Category      3  9.335   3.112   28.04 7.97e-15 ***
+Residuals   173 19.202   0.111                     
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<p>Null Hypothesis (H0): There is no significant difference in mean winning times among the categories.</p>
+<p>Alternative Hypothesis (H1): There is a significant difference in mean winning times among at least one pair of categories.</p>
+<p>I reject the null hypothesis, concluding that there are significant differences in mean winning times across at least one pair of categories (Men, Women, Wheelchair Men, Wheelchair Women).</p>
+<p>F-Test: The F value of 24.34 is higher than expected by chance, signifying significant differences in mean winning times among categories.</p>
+<p>p-value: With a tiny p-value (4.81e-13), there is substantial evidence against the null hypothesis, implying significant differences in mean winning times.</p>
+<h4 id="explore-potential-correlations-between-winning-times-and-other-variables">Explore potential correlations between winning times and other variables</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># Explore potential correlations between winning times and other variables.</span></span>
+<span></span>
+<span><span class='co'># Convert 'Nationality' to a factor variable</span></span>
+<span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Nationality</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Nationality</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># Calculate correlation coefficients</span></span>
+<span><span class='va'>cor_year_time</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Year</span>, <span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Time</span>, method <span class='op'>=</span> <span class='st'>"pearson"</span><span class='op'>)</span></span>
+<span><span class='va'>cor_nat_time</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>cor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Nationality</span><span class='op'>)</span>, <span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Time</span>, method <span class='op'>=</span> <span class='st'>"spearman"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Correlation between Year and Time (Pearson):"</span>, <span class='va'>cor_year_time</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] &quot;Correlation between Year and Time (Pearson): -0.497994280093236&quot;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Correlation between Nationality and Time (Spearman):"</span>, <span class='va'>cor_nat_time</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] &quot;Correlation between Nationality and Time (Spearman): -0.146287193160429&quot;</code></pre>
+</div>
+<p>We observed a correlation between Year and Time (Pearson) of -0.4648, indicating a moderate negative linear relationship. As the Year increases, the Time tends to decrease moderately. The closer the correlation coefficient is to -1, the stronger the negative linear relationship.</p>
+<p>Furthermore, the correlation between Nationality and Time (Spearman) is -0.1314, suggesting a weak negative monotonic relationship. As the ranks of Nationality increase, the Time tends to decrease weakly. The closer the Spearman correlation coefficient is to -1, the stronger the negative monotonic relationship.</p>
+<h5 id="test-whether-there-is-difference-of-athletes-performance-based-on-nationality">Test whether there is difference of athletes’ performance based on nationality</h5>
+<p>Here, the null hypothesis is that <span class="math inline">\(H_0\)</span>: there is no difference of athletes’ performance based on nationality. The alternative hypothesis is that <span class="math inline">\(H_A\)</span>: there is difference of athletes’ performance based on nationality.</p>
+<h6 id="anova-test">Anova test</h6>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Time</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>winners_data</span><span class='op'>$</span><span class='va'>Time</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># Performing ANOVA</span></span>
+<span><span class='va'>anova_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/aov.html'>aov</a></span><span class='op'>(</span><span class='va'>Time</span> <span class='op'>~</span> <span class='va'>Nationality</span>, data <span class='op'>=</span> <span class='va'>winners_data</span><span class='op'>)</span></span>
+<span><span class='va'>anova_summary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>anova_model</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># Print ANOVA summary</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>anova_summary</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Nationality  23  12.40  0.5390   5.109 2.39e-10 ***
+Residuals   153  16.14  0.1055                     
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<h6 id="kruskal-wallis-test">Kruskal-Wallis test</h6>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># In case the assumptions of ANOVA are not met, use Kruskal-Wallis test as a non-parametric alternative</span></span>
+<span><span class='va'>kruskal_test</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/kruskal.test.html'>kruskal.test</a></span><span class='op'>(</span><span class='va'>Time</span> <span class='op'>~</span> <span class='va'>Nationality</span>, data <span class='op'>=</span> <span class='va'>winners_data</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>kruskal_test</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  Time by Nationality
+Kruskal-Wallis chi-squared = 93.614, df = 23, p-value =
+1.745e-10</code></pre>
+</div>
+<p>Here we can see that both test give a p-value that is close to 0. So there is evidence to reject the null hypothesis, and we conclude that there is difference of athletes’ performance based on nationality.</p>
+<h4 id="summarize-which-country-has-the-most-winners-based-on-category">Summarize which country has the most winners based on category</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>winners_data</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>Category</span>,<span class='va'>Nationality</span><span class='op'>)</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarise</a></span><span class='op'>(</span>count <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>count</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_head</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 4 × 3
+# Groups:   Category [4]
+  Category         Nationality    count
+  &lt;chr&gt;            &lt;fct&gt;          &lt;int&gt;
+1 Men              Kenya             19
+2 Wheelchair Men   United Kingdom    16
+3 Wheelchair Women United Kingdom    15
+4 Women            Kenya             15</code></pre>
+</div>
+<h2 id="marathonanalysis-conclusions">Marathon(analysis &amp; conclusions)</h2>
+Overview of the dataset
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>london_marathon</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 6 × 8
+  Date        Year Applicants Accepted Starters Finishers Raised
+  &lt;date&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+1 1981-03-29  1981      20000     7747     7055      6255     NA
+2 1982-05-09  1982      90000    18059    16350     15116     NA
+3 1983-04-17  1983      60000    19735    16500     15793     NA
+4 1984-05-13  1984      70000    21142    16992     15675     NA
+5 1985-04-21  1985      83000    22274    17500     15873     NA
+6 1986-04-20  1986      80000    25566    19261     18067     NA
+# ℹ 1 more variable: `Official charity` &lt;chr&gt;</code></pre>
+</div>
+Inst from the data
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"missing value count:"</span>, <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>london_marathon</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>missing value count: 50</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>missing_percentage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colMeans</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>london_marathon</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span></span>
+<span><span class='va'>plot_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span></span>
+<span>  variable <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>missing_percentage</span><span class='op'>)</span>,</span>
+<span>  percentage <span class='op'>=</span> <span class='va'>missing_percentage</span></span>
+<span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>plot_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>variable</span>, y <span class='op'>=</span> <span class='va'>percentage</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>stat <span class='op'>=</span> <span class='st'>"identity"</span>, fill <span class='op'>=</span> <span class='st'>"skyblue"</span>, width <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Percentage of missing values in London Marathon"</span>, y <span class='op'>=</span> <span class='st'>"Percentage"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-15-1.png" alt="" width="624" /></p>
+</div>
+<p>So we can see that there are some missing values regarding the London Marathon.</p>
+<p>the Raised means amount raised for charity (£ millions), and the Official charity means Official charity.</p>
+<p>So we can think that if Official charity is NULL, it means there is no Official charity, then Raised should be 0 (or remove these values when analyzing Raised). If Official charity is not empty, and Raised is empty, then Raised Non-public, then we can fill it in using the average of other data.</p>
+<p>For the missing other fields, we can see that the fields are the same. According to the official documentation (github), the data for the last two years is missing, so we should filter out the data for these two year (about london_marathon).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>london_marathon1</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>`Official charity`</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Raised<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>Raised</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>`Official charity`</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>london_marathon</span><span class='op'>$</span><span class='va'>Raised</span>, na.rm<span class='op'>=</span><span class='cn'>T</span><span class='op'>)</span>, <span class='va'>Raised</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>london_marathon1</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Raised<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>`Official charity`</span><span class='op'>)</span>, <span class='fl'>0</span>, <span class='va'>Raised</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>london_marathon1</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>`Official charity`<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>`Official charity`</span><span class='op'>)</span>, <span class='st'>"None"</span>, <span class='va'>`Official charity`</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>london_marathon1</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Year</span> <span class='op'>&lt;</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>london_marathon1</span><span class='op'>$</span><span class='va'>Year</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"new missing value count:"</span>, <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>london_marathon1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>new missing value count: 9</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>london_marathon1</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span>, y <span class='op'>=</span> <span class='va'>Raised</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Raised Over the Years in London Marathon"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"Year"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Raised"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-17-1.png" alt="" width="624" /></p>
+</div>
+<p>From the line chart, we can see that the Raised data we filled is not helpful in analyzing the changes in Raised data. If we want to analyze the changes in this part, we only need to focus on the data from 2007 to 2019.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>filter_data</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Year</span> <span class='op'>&gt;=</span> <span class='fl'>2007</span> <span class='op'>&amp;</span> <span class='va'>Year</span> <span class='op'>&lt;=</span> <span class='fl'>2019</span><span class='op'>)</span></span>
+<span><span class='va'>filter_data</span></span></code></pre>
+</div>
+<pre><code># A tibble: 13 × 8
+# Groups:   Official charity [13]
+   Date        Year Applicants Accepted Starters Finishers Raised
+   &lt;date&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+ 1 2007-04-22  2007     128000    50039    36396     35729   46.5
+ 2 2008-04-13  2008     120000    48630    35037     34637   46.7
+ 3 2009-04-26  2009     155000    49995    35884     35404   47.2
+ 4 2010-04-25  2010     163000    51378    36956     36666   50.6
+ 5 2011-04-17  2011     163926    50532    35303     34872   51.8
+ 6 2012-04-22  2012     170150    50200    37227     36812    0  
+ 7 2013-04-21  2013     167449    48323    34631     34381   53  
+ 8 2014-04-13  2014     169682    49872    36337     35977   53.2
+ 9 2015-04-26  2015     172888    51696    38020     37793   54.1
+10 2016-04-24  2016     247069    53152    39523     39140   59.4
+11 2017-04-23  2017     253930    53229    40048     39487   61.5
+12 2018-04-22  2018     386050    54685    40926     40220   63.7
+13 2019-04-28  2019     414168    56398    42906     42549   66.4
+# ℹ 1 more variable: `Official charity` &lt;chr&gt;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>filter_data</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Year</span>, y<span class='op'>=</span><span class='va'>Raised</span>, group<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-19-1.png" alt="" width="624" /></p>
+</div>
+<p>It can be seen that fundraising increases every year.</p>
+<p>It can be seen from this plot that the winning time of men and women in wheelchairs has become significantly faster, while the winning time of normal men and women has gradually become faster, indicating that people are gradually paying attention to the competitiveness of marathon sports.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># london marathon plot</span></span>
+<span><span class='va'>london_plot</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Year</span> <span class='op'>&lt;</span> <span class='fl'>2020</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>Year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Year</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span></span>
+<span>  data <span class='op'>=</span> <span class='va'>london_plot</span>,</span>
+<span>  mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>Year</span><span class='op'>)</span></span>
+<span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Starters</span><span class='op'>)</span>,</span>
+<span>    colour <span class='op'>=</span> <span class='st'>"#008080"</span></span>
+<span>  <span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Finishers</span><span class='op'>)</span>,</span>
+<span>    colour <span class='op'>=</span> <span class='st'>"#800080"</span></span>
+<span>  <span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_segment.html'>geom_segment</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span></span>
+<span>    x <span class='op'>=</span> <span class='va'>Starters</span>,</span>
+<span>    xend <span class='op'>=</span> <span class='va'>Finishers</span>,</span>
+<span>    y <span class='op'>=</span> <span class='va'>Year</span>,</span>
+<span>    yend <span class='op'>=</span> <span class='va'>Year</span></span>
+<span>  <span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    x <span class='op'>=</span> <span class='st'>"Number of runners"</span>,</span>
+<span>    title <span class='op'>=</span> <span class='st'>"Number of London Marathon Starters and Finishers"</span></span>
+<span>  <span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span></span>
+<span>    axis.title.y <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span>    plot.background <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_rect</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"white"</span>, colour <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>,</span>
+<span>    panel.background <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_rect</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"white"</span>, colour <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span></span>
+<span>  <span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-20-1.png" alt="" width="624" /></p>
+</div>
+<h3 id="trends-in-number-of-applicants-accepted-starters-and-finishers-over-year">Trends in number of applicants, accepted, starters, and finishers over year</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>sub_london</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>39</span>,<span class='op'>]</span></span>
+<span><span class='va'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span> <span class='va'>sub_london</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Year</span>, y<span class='op'>=</span><span class='va'>Applicants</span> <span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Applicants"</span><span class='op'>)</span></span>
+<span><span class='va'>p2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span> <span class='va'>sub_london</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Year</span>, y<span class='op'>=</span><span class='va'>Accepted</span> <span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Accepted"</span><span class='op'>)</span></span>
+<span><span class='va'>p3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span> <span class='va'>sub_london</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Year</span>, y<span class='op'>=</span><span class='va'>Starters</span> <span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Starters"</span><span class='op'>)</span></span>
+<span><span class='va'>p4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span> <span class='va'>sub_london</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Year</span>, y<span class='op'>=</span><span class='va'>Finishers</span><span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Finishers"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html'>grid.arrange</a></span><span class='op'>(</span><span class='va'>p1</span>, <span class='va'>p2</span>, <span class='va'>p3</span>, <span class='va'>p4</span>, nrow<span class='op'>=</span><span class='fl'>2</span>, ncol<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-21-1.png" alt="" width="624" /></p>
+</div>
+<h3 id="analyze-the-dataset-using-linear-models">Analyze the dataset using linear models</h3>
+<p>In this part, we will use linear models to fit the data and predict the number of applicants, accepted, starters, and finishers in year 2024.</p>
+<p>From the previous part, we can see that the number of accepted, starters, and finishers versus year are generally linear. So the models we will use are <span class="math display">\[y_i=\beta_0+\beta_1x_i+\epsilon_i, \quad \epsilon_i \sim N(0,\sigma^2)\]</span>
+For number of applicants, the model we we will use is <span class="math display">\[y_i=\beta_0+\beta_1x_i+\beta_2x_i^2+\beta_3x_i^3+\epsilon_i, \quad \epsilon_i \sim N(0,\sigma^2)\]</span></p>
+<p>Moreover, we will check the normality of the residuals.</p>
+<h4 id="for-the-number-of-applicants">For the number of applicants</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Applicants</span> <span class='op'>~</span> <span class='va'>Year</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>Year</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>Year</span><span class='op'>^</span><span class='fl'>3</span><span class='op'>)</span>, data <span class='op'>=</span> <span class='va'>sub_london</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>sub_london</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span>, y <span class='op'>=</span> <span class='va'>Applicants</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, formula <span class='op'>=</span> <span class='va'>y</span> <span class='op'>~</span> <span class='fu'><a href='https://rdrr.io/r/stats/poly.html'>poly</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fl'>3</span><span class='op'>)</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Polynomial Regression Model"</span>, x <span class='op'>=</span> <span class='st'>"Year"</span>, y <span class='op'>=</span> <span class='st'>"Number of Applicants"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-23-1.png" alt="" width="624" /></p>
+</div>
+<h5 id="prediction">Prediction</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>new</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='st'>'Year'</span><span class='op'>=</span> <span class='fl'>2024</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit1</span>, newdata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>new</span><span class='op'>)</span>, interval <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"confidence"</span><span class='op'>)</span>, level <span class='op'>=</span> <span class='fl'>0.95</span>, type<span class='op'>=</span><span class='st'>"response"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+output
+</summary>
+<pre><code>     fit      lwr      upr
+1 571826 498633.6 645018.4</code></pre>
+</details>
+</div>
+<p>The number of applicants is estimated to be 571826 in 2024. A <span class="math inline">\(95\%\)</span> prediction interval is <span class="math inline">\((498633, 645018)\)</span>.</p>
+<h5 id="model-checking">Model Checking</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fit1</span>, which<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-25-1.png" alt="" width="624" /></p>
+</details>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fit1</span>, which<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-25-2.png" alt="" width="624" /></p>
+</details>
+</div>
+<h4 id="for-the-number-of-accepted">For the number of accepted</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Accepted</span> <span class='op'>~</span> <span class='va'>Year</span>, data <span class='op'>=</span> <span class='va'>sub_london</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>sub_london</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span>, y <span class='op'>=</span> <span class='va'>Accepted</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, formula <span class='op'>=</span> <span class='st'>'y ~ x'</span>,se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"SLR Model for Accepted"</span>, x <span class='op'>=</span> <span class='st'>"Year"</span>, y <span class='op'>=</span> <span class='st'>"Number of Accepted"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-26-1.png" alt="" width="624" /></p>
+</div>
+<h5 id="prediction-1">Prediction</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>new</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='st'>'Year'</span><span class='op'>=</span> <span class='fl'>2024</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit2</span>, newdata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>new</span><span class='op'>)</span>, interval <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"confidence"</span><span class='op'>)</span>, level <span class='op'>=</span> <span class='fl'>0.95</span>, type<span class='op'>=</span><span class='st'>"response"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+output
+</summary>
+<pre><code>       fit     lwr      upr
+1 63762.82 60926.6 66599.03</code></pre>
+</details>
+</div>
+<p>The number of applicants is estimated to be 63762 in 2024. A <span class="math inline">\(95\%\)</span> prediction interval is <span class="math inline">\((60926, 66599)\)</span>.</p>
+<h5 id="model-checking-1">Model Checking</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fit2</span>, which<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-28-1.png" alt="" width="624" /></p>
+</details>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fit2</span>, which<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-28-2.png" alt="" width="624" /></p>
+</details>
+</div>
+<h4 id="for-the-number-of-starters">For the number of starters</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Starters</span> <span class='op'>~</span> <span class='va'>Year</span>, data <span class='op'>=</span> <span class='va'>sub_london</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>sub_london</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span>, y <span class='op'>=</span> <span class='va'>Starters</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>, formula <span class='op'>=</span> <span class='st'>'y ~ x'</span>,se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"SLR Model for Starters"</span>, x <span class='op'>=</span> <span class='st'>"Year"</span>, y <span class='op'>=</span> <span class='st'>"Number of Starters"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-29-1.png" alt="" width="624" /></p>
+</div>
+<h5 id="prediction-2">Prediction</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>new</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='st'>'Year'</span><span class='op'>=</span> <span class='fl'>2024</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit3</span>, newdata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>new</span><span class='op'>)</span>, interval <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"confidence"</span><span class='op'>)</span>, level <span class='op'>=</span> <span class='fl'>0.95</span>, type<span class='op'>=</span><span class='st'>"response"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+output
+</summary>
+<pre><code>       fit      lwr      upr
+1 46119.77 44331.73 47907.82</code></pre>
+</details>
+</div>
+<p>The number of applicants is estimated to be 46119 in 2024. A <span class="math inline">\(95\%\)</span> prediction interval is <span class="math inline">\((44331, 47907)\)</span>.</p>
+<h5 id="model-checking-2">Model Checking</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fit3</span>, which<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-31-1.png" alt="" width="624" /></p>
+</details>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fit3</span>, which<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-31-2.png" alt="" width="624" /></p>
+</details>
+</div>
+<h4 id="for-the-number-of-finishers">For the number of finishers</h4>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>Finishers</span> <span class='op'>~</span> <span class='va'>Year</span>, data <span class='op'>=</span> <span class='va'>sub_london</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>sub_london</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>Year</span>, y <span class='op'>=</span> <span class='va'>Finishers</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"lm"</span>,formula <span class='op'>=</span> <span class='st'>'y ~ x'</span>, se <span class='op'>=</span> <span class='cn'>FALSE</span>, color <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"SLR Model for Finishers"</span>, x <span class='op'>=</span> <span class='st'>"Year"</span>, y <span class='op'>=</span> <span class='st'>"Number of Finishers"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-32-1.png" alt="" width="624" /></p>
+</div>
+<h5 id="prediction-3">Prediction</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>new</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='st'>'Year'</span><span class='op'>=</span> <span class='fl'>2024</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>fit4</span>, newdata <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>new</span><span class='op'>)</span>, interval <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"confidence"</span><span class='op'>)</span>, level <span class='op'>=</span> <span class='fl'>0.95</span>, type<span class='op'>=</span><span class='st'>"response"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+output
+</summary>
+<pre><code>       fit      lwr      upr
+1 46056.64 44306.16 47807.13</code></pre>
+</details>
+</div>
+<p>The number of applicants is estimated to be 46056 in 2024. A <span class="math inline">\(95\%\)</span> prediction interval is <span class="math inline">\((44306, 47807)\)</span>.</p>
+<h5 id="model-checking-3">Model Checking</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fit4</span>, which<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-34-1.png" alt="" width="624" /></p>
+</details>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fit4</span>, which<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-34-2.png" alt="" width="624" /></p>
+</details>
+</div>
+<h3 id="create-new-variables-and-visulization">Create new variables and visulization</h3>
+<p>Let <span class="math inline">\(x\)</span> denote the number of applicants in a year, <span class="math inline">\(y_1\)</span> the number of accepted in a year, <span class="math inline">\(y_2\)</span> the number of starters in a year, <span class="math inline">\(y_3\)</span> the number of finishers in a year. We define the ratio of accepted as <span class="math inline">\(r_1=\frac{y_1}{x}\)</span>, ratio of starters as <span class="math inline">\(r_2=\frac{y_2}{y_1}\)</span>, ratio of finishers as <span class="math inline">\(r_3=\frac{y_3}{y_2}\)</span>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>london_marathon</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>`Ratio of Accepted`<span class='op'>=</span><span class='va'>Accepted</span><span class='op'>/</span><span class='va'>Applicants</span><span class='op'>)</span><span class='op'>|&gt;</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>`Ratio of Starters`<span class='op'>=</span><span class='va'>Starters</span><span class='op'>/</span><span class='va'>Accepted</span><span class='op'>)</span><span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>`Ratio of Finishers`<span class='op'>=</span><span class='va'>Finishers</span><span class='op'>/</span><span class='va'>Starters</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>london_marathon</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Year"</span>, <span class='st'>"Ratio of Accepted"</span>, <span class='st'>"Ratio of Starters"</span>,<span class='st'>"Ratio of Finishers"</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 45 × 4
+    Year `Ratio of Accepted` `Ratio of Starters` `Ratio of Finishers`
+   &lt;dbl&gt;               &lt;dbl&gt;               &lt;dbl&gt;                &lt;dbl&gt;
+ 1  1981               0.387               0.911                0.887
+ 2  1982               0.201               0.905                0.925
+ 3  1983               0.329               0.836                0.957
+ 4  1984               0.302               0.804                0.922
+ 5  1985               0.268               0.786                0.907
+ 6  1986               0.320               0.753                0.938
+ 7  1987               0.355               0.757                0.912
+ 8  1988               0.411               0.749                0.932
+ 9  1989               0.441               0.770                0.928
+10  1990               0.478               0.760                0.944
+# ℹ 35 more rows</code></pre>
+</div>
+<p>Accepted to Started: Over the years, there is a general trend of a decline in the percentage of accepted participants who actually start the race.</p>
+<p>Started to Finished:</p>
+<p>The percentage of starters who finish the race seems to be relatively stable, generally ranging from the high 80s to mid-90s.</p>
+<p>Notable Observation (2020):</p>
+<p>In 2020, there’s a notable observation in the “Accepted to Started” column. The percentage is 100%, indicating that all accepted participants started the race. However, the “Started to Finished” percentage is lower (79.22%), indicating that not all starters completed the race.</p>
+<p>This discrepancy could be due to the impact of external factors such as the COVID-19 pandemic, leading to a different pattern in that particular year.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>sub_london1</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>39</span>,<span class='op'>]</span></span>
+<span><span class='va'>p1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span> <span class='va'>sub_london1</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Year</span>, y<span class='op'>=</span><span class='va'>`Ratio of Accepted`</span> <span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Ratio of Accepted"</span><span class='op'>)</span></span>
+<span><span class='va'>p2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span> <span class='va'>sub_london1</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Year</span>, y<span class='op'>=</span><span class='va'>`Ratio of Starters`</span> <span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Ratio of Starters"</span><span class='op'>)</span></span>
+<span><span class='va'>p3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data<span class='op'>=</span> <span class='va'>sub_london1</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Year</span>, y<span class='op'>=</span><span class='va'>`Ratio of Finishers`</span> <span class='op'>)</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_path.html'>geom_line</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Ratio of Finishers"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html'>grid.arrange</a></span><span class='op'>(</span><span class='va'>p1</span>, <span class='va'>p2</span>, <span class='va'>p3</span>, ncol<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-36-1.png" alt="" width="624" /></p>
+</div>
+<h3 id="time-series-analysis-and-forecasting">Time series analysis and forecasting</h3>
+<p>In this part, we will focus on four time series, which are number of applicants each year, ratio of accepted each year, ratio of starters each year, and ratio of finishers each year. We will use ARIMA(AutoRegressive Integrated Moving Average) model to analyze and make forecasts for the time series in London marathon dataset. For each time series, we will draw a forecasting plot of 10 years, check the autocorrelation function of the residuals, check the normality of the residuals, and do a Box-Ljung test(a statistical test used to check whether any of a group of autocorrelations of a time series are different from zero).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># a function to plot the forecast errors</span></span>
+<span><span class='va'>plotForecastErrors</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>forecasterrors</span><span class='op'>)</span></span>
+<span>  <span class='op'>{</span></span>
+<span>     <span class='co'># make a histogram of the forecast errors:</span></span>
+<span>     <span class='va'>mybinsize</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/IQR.html'>IQR</a></span><span class='op'>(</span><span class='va'>forecasterrors</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>4</span></span>
+<span>     <span class='va'>mysd</span>   <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/sd.html'>sd</a></span><span class='op'>(</span><span class='va'>forecasterrors</span><span class='op'>)</span></span>
+<span>     <span class='va'>mymin</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>forecasterrors</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>mysd</span><span class='op'>*</span><span class='fl'>5</span></span>
+<span>     <span class='va'>mymax</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>forecasterrors</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>mysd</span><span class='op'>*</span><span class='fl'>3</span></span>
+<span>     <span class='co'># generate normally distributed data with mean 0 and standard deviation mysd</span></span>
+<span>     <span class='va'>mynorm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10000</span>, mean<span class='op'>=</span><span class='fl'>0</span>, sd<span class='op'>=</span><span class='va'>mysd</span><span class='op'>)</span></span>
+<span>     <span class='va'>mymin2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>mynorm</span><span class='op'>)</span></span>
+<span>     <span class='va'>mymax2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>mynorm</span><span class='op'>)</span></span>
+<span>     <span class='kw'>if</span> <span class='op'>(</span><span class='va'>mymin2</span> <span class='op'>&lt;</span> <span class='va'>mymin</span><span class='op'>)</span> <span class='op'>{</span> <span class='va'>mymin</span> <span class='op'>&lt;-</span> <span class='va'>mymin2</span> <span class='op'>}</span></span>
+<span>     <span class='kw'>if</span> <span class='op'>(</span><span class='va'>mymax2</span> <span class='op'>&gt;</span> <span class='va'>mymax</span><span class='op'>)</span> <span class='op'>{</span> <span class='va'>mymax</span> <span class='op'>&lt;-</span> <span class='va'>mymax2</span> <span class='op'>}</span></span>
+<span>     <span class='co'># make a red histogram of the forecast errors, with the normally distributed data overlaid:</span></span>
+<span>     <span class='va'>mybins</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='va'>mymin</span>, <span class='va'>mymax</span>, <span class='va'>mybinsize</span><span class='op'>)</span></span>
+<span>     <span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>forecasterrors</span>, col<span class='op'>=</span><span class='st'>"red"</span>, freq<span class='op'>=</span><span class='cn'>FALSE</span>, breaks<span class='op'>=</span><span class='va'>mybins</span><span class='op'>)</span></span>
+<span>     <span class='co'># freq=FALSE ensures the area under the histogram = 1</span></span>
+<span>     <span class='co'># generate normally distributed data with mean 0 and standard deviation mysd</span></span>
+<span>     <span class='va'>myhist</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>mynorm</span>, plot<span class='op'>=</span><span class='cn'>FALSE</span>, breaks<span class='op'>=</span><span class='va'>mybins</span><span class='op'>)</span></span>
+<span>     <span class='co'># plot the normal curve as a blue line on top of the histogram of forecast errors:</span></span>
+<span>     <span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>myhist</span><span class='op'>$</span><span class='va'>mids</span>, <span class='va'>myhist</span><span class='op'>$</span><span class='va'>density</span>, type<span class='op'>=</span><span class='st'>"l"</span>, col<span class='op'>=</span><span class='st'>"blue"</span>, lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span><span class='op'>}</span></span></code></pre>
+</div>
+</div>
+<h4 id="analysis-of-number-of-applicants">Analysis of number of applicants</h4>
+<h5 id="forecasting-the-number-of-applicants-in-next-10-years">Forecasting the number of applicants in next 10 years</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>app</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon</span><span class='op'>$</span><span class='va'>Applicants</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>40</span><span class='op'>]</span></span>
+<span><span class='va'>appts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='va'>app</span>, ,frequency<span class='op'>=</span><span class='fl'>1</span>,start<span class='op'>=</span><span class='fl'>1981</span><span class='op'>)</span></span>
+<span><span class='va'>appts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span><span class='op'>(</span><span class='va'>appts</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># fit the an automatic arima model</span></span>
+<span><span class='va'>apptsarima</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://pkg.robjhyndman.com/forecast/reference/auto.arima.html'>auto.arima</a></span><span class='op'>(</span><span class='va'>appts</span><span class='op'>)</span></span>
+<span><span class='co'># make forcast about the number of applicants in 10 years</span></span>
+<span><span class='va'>fc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/forecast.html'>forecast</a></span><span class='op'>(</span><span class='va'>apptsarima</span>, h<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fc</span>, xlab <span class='op'>=</span> <span class='st'>"Year"</span>, ylab<span class='op'>=</span> <span class='st'>"Number of Applicants"</span>, main <span class='op'>=</span> <span class='st'>"Forecasts of Number of Applicants"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-38-1.png" alt="" width="624" /></p>
+</div>
+<p>The forecasting plot shows that there will be about 6000 annual increase of number of applicants for London marathon in the next 10 years.</p>
+<h5 id="checking-acf-of-the-residuals">Checking ACF of the residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># check autocorrelation function with lag from 1 to 20</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/stats/acf.html'>acf</a></span><span class='op'>(</span><span class='va'>fc</span><span class='op'>$</span><span class='va'>residuals</span>, lag.max<span class='op'>=</span><span class='fl'>20</span>,main<span class='op'>=</span><span class='st'>"ACF Check for Resisuals"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-39-1.png" alt="" width="624" /></p>
+</details>
+</div>
+<h5 id="box-ljung-test-for-residuals">Box-Ljung test for residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># Box-Ljung test</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/stats/box.test.html'>Box.test</a></span><span class='op'>(</span><span class='va'>fc</span><span class='op'>$</span><span class='va'>residuals</span>, lag<span class='op'>=</span><span class='fl'>20</span>, type<span class='op'>=</span><span class='st'>"Ljung-Box"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+output
+</summary>
+<pre><code>
+    Box-Ljung test
+
+data:  fc$residuals
+X-squared = 5.7183, df = 20, p-value = 0.9992</code></pre>
+</details>
+</div>
+<h5 id="checking-normality-of-the-residuals">Checking normality of the residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># histogram of forecasterrors</span></span>
+<span><span class='fu'>plotForecastErrors</span><span class='op'>(</span><span class='va'>fc</span><span class='op'>$</span><span class='va'>residuals</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-41-1.png" alt="" width="624" /></p>
+</details>
+</div>
+<h4 id="analysis-of-ratio-of-accepted">Analysis of ratio of accepted</h4>
+<h5 id="forecasting-ratio-of-accepted-in-next-10-years">Forecasting ratio of accepted in next 10 years</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>roa</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon</span><span class='op'>$</span><span class='va'>`Ratio of Accepted`</span></span>
+<span><span class='va'>roats</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='va'>roa</span>, ,frequency<span class='op'>=</span><span class='fl'>1</span>,start<span class='op'>=</span><span class='fl'>1981</span><span class='op'>)</span></span>
+<span><span class='va'>roats</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/zoo/man/na.approx.html'>na.approx</a></span><span class='op'>(</span><span class='va'>roats</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># fit the an automatic arima model</span></span>
+<span><span class='va'>roatsarima</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://pkg.robjhyndman.com/forecast/reference/auto.arima.html'>auto.arima</a></span><span class='op'>(</span><span class='va'>roats</span><span class='op'>)</span></span>
+<span><span class='co'># make forcast about the number of applicants in 10 years</span></span>
+<span><span class='va'>fc2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/forecast.html'>forecast</a></span><span class='op'>(</span><span class='va'>roatsarima</span>, h<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fc2</span>,xlab <span class='op'>=</span> <span class='st'>"Year"</span>, ylab<span class='op'>=</span> <span class='st'>"Number of Applicants"</span>, main <span class='op'>=</span> <span class='st'>"Forecasts of Ratio of Accepted"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-42-1.png" alt="" width="624" /></p>
+</div>
+<p>The forecasting plot shows that the ratio of accepted for London marathon in the next 10 years will generally remain constant.</p>
+<h5 id="checking-acf-of-the-residuals-1">Checking ACF of the residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># check autocorrelation function with lag from 1 to 20</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/stats/acf.html'>acf</a></span><span class='op'>(</span><span class='va'>fc2</span><span class='op'>$</span><span class='va'>residuals</span>, lag.max<span class='op'>=</span><span class='fl'>20</span>,main<span class='op'>=</span><span class='st'>"ACF Check for Resisuals"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-43-1.png" alt="" width="624" /></p>
+</details>
+</div>
+<h5 id="box-ljung-test-for-residuals-1">Box-Ljung test for residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># Box-Ljung test</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/stats/box.test.html'>Box.test</a></span><span class='op'>(</span><span class='va'>fc2</span><span class='op'>$</span><span class='va'>residuals</span>, lag<span class='op'>=</span><span class='fl'>20</span>, type<span class='op'>=</span><span class='st'>"Ljung-Box"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+output
+</summary>
+<pre><code>
+    Box-Ljung test
+
+data:  fc2$residuals
+X-squared = 17.488, df = 20, p-value = 0.6211</code></pre>
+</details>
+</div>
+<h5 id="checking-normality-of-the-residuals-1">Checking normality of the residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># histogram of forecasterrors</span></span>
+<span><span class='fu'>plotForecastErrors</span><span class='op'>(</span><span class='va'>fc2</span><span class='op'>$</span><span class='va'>residuals</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-45-1.png" alt="" width="624" /></p>
+</details>
+</div>
+<h4 id="analysis-of-ratio-of-starters">Analysis of ratio of starters</h4>
+<h5 id="forecasting-ratio-of-starters-in-next-10-years">Forecasting ratio of starters in next 10 years</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>ros</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon</span><span class='op'>$</span><span class='va'>`Ratio of Starters`</span></span>
+<span><span class='va'>rosts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='va'>ros</span>, ,frequency<span class='op'>=</span><span class='fl'>1</span>,start<span class='op'>=</span><span class='fl'>1981</span><span class='op'>)</span></span>
+<span><span class='va'>rosts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/zoo/man/na.approx.html'>na.approx</a></span><span class='op'>(</span><span class='va'>rosts</span><span class='op'>)</span></span>
+<span><span class='va'>rostsarima</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://pkg.robjhyndman.com/forecast/reference/auto.arima.html'>auto.arima</a></span><span class='op'>(</span><span class='va'>rosts</span><span class='op'>)</span></span>
+<span><span class='va'>fc3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/forecast.html'>forecast</a></span><span class='op'>(</span><span class='va'>rostsarima</span>, h<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fc3</span>,xlab <span class='op'>=</span> <span class='st'>"Year"</span>, ylab<span class='op'>=</span> <span class='st'>"Number of Applicants"</span>, main <span class='op'>=</span> <span class='st'>"Forecasts of Ratio of Starters"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-46-1.png" alt="" width="624" /></p>
+</div>
+<p>The forecasting plot shows that the ratio of accepted for London marathon in the next 10 years will decrease.</p>
+<h5 id="checking-acf-of-the-residuals-2">Checking ACF of the residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/stats/acf.html'>acf</a></span><span class='op'>(</span><span class='va'>fc3</span><span class='op'>$</span><span class='va'>residuals</span>, lag.max<span class='op'>=</span><span class='fl'>20</span>,main<span class='op'>=</span><span class='st'>"ACF Check for Resisuals"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-47-1.png" alt="" width="624" /></p>
+</details>
+</div>
+<h5 id="box-ljung-test-for-residuals-2">Box-Ljung test for residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/stats/box.test.html'>Box.test</a></span><span class='op'>(</span><span class='va'>fc3</span><span class='op'>$</span><span class='va'>residuals</span>, lag<span class='op'>=</span><span class='fl'>20</span>, type<span class='op'>=</span><span class='st'>"Ljung-Box"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+output
+</summary>
+<pre><code>
+    Box-Ljung test
+
+data:  fc3$residuals
+X-squared = 11.76, df = 20, p-value = 0.9241</code></pre>
+</details>
+</div>
+<h5 id="checking-normality-of-the-residuals-2">Checking normality of the residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>plotForecastErrors</span><span class='op'>(</span><span class='va'>fc3</span><span class='op'>$</span><span class='va'>residuals</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-49-1.png" alt="" width="624" /></p>
+</details>
+</div>
+<h4 id="analysis-of-ratio-of-finishers">Analysis of ratio of finishers</h4>
+<h5 id="forecasting-the-ratio-of-finishers-in-next-10-years">Forecasting the ratio of finishers in next 10 years</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>rof</span> <span class='op'>&lt;-</span> <span class='va'>london_marathon</span><span class='op'>$</span><span class='va'>`Ratio of Finishers`</span></span>
+<span><span class='va'>rofts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span><span class='op'>(</span><span class='va'>rof</span>, ,frequency<span class='op'>=</span><span class='fl'>1</span>,start<span class='op'>=</span><span class='fl'>1981</span><span class='op'>)</span></span>
+<span><span class='va'>rofts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/zoo/man/na.approx.html'>na.approx</a></span><span class='op'>(</span><span class='va'>rofts</span><span class='op'>)</span></span>
+<span><span class='va'>roftsarima</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://pkg.robjhyndman.com/forecast/reference/auto.arima.html'>auto.arima</a></span><span class='op'>(</span><span class='va'>rofts</span><span class='op'>)</span></span>
+<span><span class='va'>fc4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://generics.r-lib.org/reference/forecast.html'>forecast</a></span><span class='op'>(</span><span class='va'>roftsarima</span>, h<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>fc4</span>,xlab <span class='op'>=</span> <span class='st'>"Year"</span>, ylab<span class='op'>=</span> <span class='st'>"Number of Applicants"</span>, main <span class='op'>=</span> <span class='st'>"Forecasts of Ratio of Finishers"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-50-1.png" alt="" width="624" /></p>
+</div>
+<p>The forecasting plot shows that the ratio of finishers for London marathon in the next 10 years will remain constant.</p>
+<h5 id="checking-acf-of-the-residuals-3">Checking ACF of the residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/stats/acf.html'>acf</a></span><span class='op'>(</span><span class='va'>fc4</span><span class='op'>$</span><span class='va'>residuals</span>, lag.max<span class='op'>=</span><span class='fl'>20</span>,main<span class='op'>=</span><span class='st'>"ACF Check for Resisuals"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-51-1.png" alt="" width="624" /></p>
+</details>
+</div>
+<h5 id="box-ljung-test-for-residuals-3">Box-Ljung test for residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/stats/box.test.html'>Box.test</a></span><span class='op'>(</span><span class='va'>fc4</span><span class='op'>$</span><span class='va'>residuals</span>, lag<span class='op'>=</span><span class='fl'>20</span>, type<span class='op'>=</span><span class='st'>"Ljung-Box"</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+output
+</summary>
+<pre><code>
+    Box-Ljung test
+
+data:  fc4$residuals
+X-squared = 4.4504, df = 20, p-value = 0.9999</code></pre>
+</details>
+</div>
+<h5 id="checking-normality-of-the-residuals-3">Checking normality of the residuals</h5>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>plotForecastErrors</span><span class='op'>(</span><span class='va'>fc4</span><span class='op'>$</span><span class='va'>residuals</span><span class='op'>)</span></span></code></pre>
+</div>
+<details>
+<summary>
+plot
+</summary>
+<p><img src="buildingdistill_files/figure-html5/unnamed-chunk-53-1.png" alt="" width="624" /></p>
+</details>
+</div>
+<p>Since the correlograms in models above show that none of the sample autocorrelations for lags 1-20 exceed the significance bounds, and the p-values for the Ljung-Box test are close to 1, we can conclude that there are very little evidences for non-zero autocorrelations in the forecast errors at lags 1-20.</p>
+<p>The histograms of the time series show that the forecast errors are roughly normally distributed and the means seem to be close to zero. Therefore, it is plausible that the forecast errors are normally distributed with mean zero and constant variance.</p>
+<p>Since successive forecast errors do not seem to be correlated, and the forecast errors seem to be normally distributed with means zeros and constant variances, the ARIMA(s) do seem to provide adequate predictive models for the dataset.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
