@@ -18,7 +18,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE,echo=FALSE}
 library(tidyverse)
 library(ggplot2)
 library(dplyr)
@@ -32,11 +32,9 @@ data(london_marathon, package = "LondonMarathon")
 ```
 
 
-# Project outline {.tabset}
+## 1 Introduction
 
-## Introduction
-
-### What is the data about?  
+### 1.1 What is the data about?  
 The London Marathon, or the TCS London Marathon, is a truly special event that brings people from all walks of life together. It was the brainchild of visionaries Chris Brasher and John Disley back in 1981 and has since become the UK's second-largest annual road race, second only to the famous Great North Run in Newcastle.
 
 Usually happening in April, the marathon had a temporary switch to October in 2020, 2021, and 2022 due to the challenges posed by the COVID-19 pandemic. The course itself is known for its mostly flat terrain, winding its way around the beautiful River Thames, starting at Blackheath and ending with a grand finish at The Mall.
@@ -57,7 +55,7 @@ What truly sets the London Marathon apart is its heartwarming philanthropic side
 
 So, as the London Marathon continues to capture hearts and inspire runners worldwide, it's not just a race; it's a legacy of community, achievement.
 
-### Questions that we will look at and the methods we used
+### 1.2 Questions that we will look at and the methods we used
 
 1) Analyzing Trends in Winning Times Over the Years:
    Our examination of winning times involves creating time series plots for each category or utilizing regression analysis to identify significant trends. Through careful comparison and the use of visualizations, we aim to uncover patterns and changes in winning times across various categories.
@@ -90,7 +88,7 @@ we delve into long-term charity partnerships. By identifying charities that have
 
 Lastly, we conduct a comparative analysis to understand how the number of male and female participants has changed over the years. Through visualizations, we aim to illustrate the evolving dynamics of gender participation in the London Marathon, showcasing the inclusive spirit of this remarkable event.
 
-### What information does the data contain? Cases, variables? How was it collected?
+### 1.3 What information does the data contain? Cases, variables? How was it collected?
 
 The data provided gives us insights into the London Marathon, offering details on the number of applicants, accepted participants, starters, finishers, funds raised, and the official charities involved for each year. Additionally, we have separate information on the winners across different categories such as Men, Women, Wheelchair Men, and Wheelchair Women throughout the years.
 
@@ -125,7 +123,7 @@ How was it collected?
 
 
 
-## Data Wrangling
+## 2 Data Wrangling
 
 #### Which subset of the data is relevant to our research question? Have we filtered out any observations from the analysis? Have we created new variables?
 For the winners dataset, all variables and observations are relevant. For the london_marathon dataset, only variables Year, Applicants, Accepted, Starters, Finishers are relevant to our research questions.  
@@ -134,14 +132,13 @@ For the winners dataset, no observation is filtered out. For the london_marathon
 
 We created new variables, which are ratio of accepted, ratio of starters, and ratio of finishers, in the london_marathon dataset.
 
-### Are there missing values?
+### 2.1 Are there missing values?
 The winners dataset dos not contain any missing values, but the london_marathon dataset does. There are many methods to filling missing values. But we chose not to adopt a specific one, since those values are missing systematically. No appropriate appllys except we were able to figure out why they are missed.
 
-
-### Do variables have appropriate type?
+### 2.2 Do variables have appropriate type?
 Here is the data types summary. 
 
-```{r}
+```{r,echo=FALSE}
 library(knitr)
 table <- data.frame('Column'=c('Category','Year','Athlete','Nationality','Time'), 'Class'=c('character','integer','character','character','character'), 'Description'=c('Category of race','Year','Name of the winner','Nationality of the winner','Winning time'),'Example'=c('Men',1981,'Dick Beardsley(Tie)','United States', '02:11:48'))
 kable(table, caption = "Winners")
@@ -149,21 +146,22 @@ table2 <- data.frame('Column'=c('Date','Year','Applicants','Accepted','Starters'
 kable(table2, caption = "London Marathon")
 ```
 
-### Are there any strange aspects to the data?
+### 2.3 Are there any strange aspects to the data?
 In the london_marathon dataset, observation of number of applicants in year 1981-2012 are in a unit of 1000. And observations of number of applicants, accepted, starters, and finishers in year 2020 are abnormally low.
 
 
+## 3 Analysis of Winners Dataset (including conclusions)
 
-## Winners(analysis & conclusions)
+### 3.1 Anlysis of winners dataset
 
-### Anlysis of winners dataset
 Overview of the dataset
-```{r}
+
+```{r,echo=FALSE}
 head(winners)
 ```
 
 #### Trends in winning times over the year
-```{r}
+```{r,echo=FALSE}
 winners_data <- winners |> mutate(Time=24*Time)
 
 winners_data$Year <- as.numeric(winners_data$Year)
@@ -189,14 +187,14 @@ The overall trend suggests that there has been an improvement in athletic perfor
 
 #### Compare winning times between different categories (i.e. How much difference there is between performance of men and women?)
 
-```{r}
+```{r,echo=FALSE}
 boxplot(Time ~ Category, data = winners_data, desc= T,main="Boxplots of Winning Time of Each Category")
 ```
 
 From this plot, we can see there is difference of performance between men and women.
 
 
-```{r}
+```{r,echo=FALSE}
 # t-test for Men vs. Women
 t_test_men_women <- t.test(Time ~ Category, data = subset(winners_data, Category %in% c("Men", "Women")))
 print(t_test_men_women)
@@ -219,7 +217,7 @@ Sample Estimates: The mean winning time for Men (0.08837516) is significantly di
 
 Conclusion: Given the very low p-value, we reject the null hypothesis. There is strong statistical evidence to suggest that there is a significant difference in mean winning times between Men and Women. The negative mean difference in the confidence interval indicates that, on average, Men have a lower winning time compared to Women.
 
-```{r}
+```{r,echo=FALSE}
 # t-test for Wheelchair Men vs. Wheelchair Women
 t_test_wheelchair <- t.test(Time ~ Category, data = subset(winners_data, Category %in% c("Wheelchair Men", "Wheelchair Women")))
 print(t_test_wheelchair)
@@ -236,7 +234,7 @@ p-value = 0.0004625: The p-value is less than 0.05, indicating that there is str
 
 With a small p-value and a negative t-value, there is evidence to suggest that there is a statistically significant difference in winning times between Wheelchair Men and Wheelchair Women. The mean winning time for Wheelchair Women appears to be significantly higher than that for Wheelchair Men. The 95% confidence interval provides a range for the magnitude of this difference.
 
-```{r}
+```{r,echo=FALSE}
 # ANOVA for Men vs. Women vs. Wheelchair Men vs. Wheelchair Women
 anova_model <- aov(Time ~ Category, data = subset(winners_data, Category %in% c("Men", "Women", "Wheelchair Men", "Wheelchair Women")))
 summary(anova_model)
@@ -252,7 +250,7 @@ F-Test: The F value of 24.34 is higher than expected by chance, signifying signi
 p-value: With a tiny p-value (4.81e-13), there is substantial evidence against the null hypothesis, implying significant differences in mean winning times.
 
 #### Explore potential correlations between winning times and other variables
-```{r}
+```{r,echo=FALSE}
 # Explore potential correlations between winning times and other variables.
 
 # Convert 'Nationality' to a factor variable
@@ -274,7 +272,7 @@ Here, the null hypothesis is that $H_0$: there is no difference of athletes' per
 
 
 ###### Anova test
-```{r}
+```{r,echo=FALSE}
 winners_data$Time <- as.numeric(winners_data$Time)
 
 # Performing ANOVA
@@ -286,7 +284,7 @@ print(anova_summary)
 ```
 
 ###### Kruskal-Wallis test
-```{r}
+```{r,echo=FALSE}
 # In case the assumptions of ANOVA are not met, use Kruskal-Wallis test as a non-parametric alternative
 kruskal_test <- kruskal.test(Time ~ Nationality, data = winners_data)
 print(kruskal_test)
@@ -295,24 +293,25 @@ print(kruskal_test)
 Here we can see that both test give a p-value that is close to 0. So there is evidence to reject the null hypothesis, and we conclude that there is difference of athletes' performance based on nationality.
 
 #### Summarize which country has the most winners based on category
-```{r,warning=FALSE,message=FALSE}
+```{r,warning=FALSE,message=FALSE,echo=FALSE}
 winners_data |> group_by(Category,Nationality) |> summarise(count = n()) |> arrange(desc(count)) |> slice_head()
 
 ```
 
 
-## Marathon(analysis & conclusions)
+## 4 Analysis of Marathon Dataset (including conclusions)
+
 Overview of the dataset
-```{r}
+
+```{r,echo=FALSE}
 head(london_marathon)
 ```
 
-Inst from the data
-```{r}
+```{r,echo=FALSE}
 cat("missing value count:", sum(is.na(london_marathon)))
 ```
 
-```{r}
+```{r,echo=FALSE}
 missing_percentage <- colMeans(is.na(london_marathon)) * 100
 plot_data <- data.frame(
   variable = names(missing_percentage),
@@ -324,16 +323,15 @@ ggplot(plot_data, aes(x = variable, y = percentage)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-
-So we can see that there are some missing values regarding the London Marathon.
+We can see that there are some missing values regarding the London Marathon.
 
 the Raised means amount raised for charity (£ millions), and the Official charity means Official charity.
 
-So we can think that if Official charity is NULL, it means there is no Official charity, then Raised should be 0 (or remove these values when analyzing Raised). If Official charity is not empty, and Raised is empty, then Raised Non-public, then we can fill it in using the average of other data.
+So we can think that if Official charity is NULL, it means there is no Official charity, then Raised should be 0 (or remove these values when analyzing Raised). If Official charity is not empty, and Raised is empty, then Raised is Non-public, then we can fill it in using the average of other data.
 
-For the missing other fields, we can see that the fields are the same. According to the official documentation (github), the data for the last two years is missing, so we should filter out the data for these two year (about london_marathon).
+For the missing other fields, we can see that the fields are the same. According to the official documentation (Github), the data for the last two years is missing, so we should filter out the data for these two year (about london_marathon).
 
-```{r}
+```{r,echo=FALSE}
 london_marathon1 <- london_marathon %>% group_by(`Official charity`) %>% mutate(Raised=ifelse(is.na(Raised) & !is.na(`Official charity`), mean(london_marathon$Raised, na.rm=T), Raised))
 
 london_marathon1 <- london_marathon1 %>% mutate(Raised=ifelse(is.na(`Official charity`), 0, Raised))
@@ -346,7 +344,7 @@ cat("new missing value count:", sum(is.na(london_marathon1)))
 ```
 
 
-```{r}
+```{r,echo=FALSE}
 ggplot(london_marathon1, aes(x = Year, y = Raised)) +
   geom_line() +
   labs(title = "Raised Over the Years in London Marathon",
@@ -357,24 +355,43 @@ ggplot(london_marathon1, aes(x = Year, y = Raised)) +
 
 From the line chart, we can see that the Raised data we filled is not helpful in analyzing the changes in Raised data. If we want to analyze the changes in this part, we only need to focus on the data from 2007 to 2019.
 
-```{r}
+```{r,echo=FALSE}
 filter_data <- london_marathon1 %>% filter(Year >= 2007 & Year <= 2019)
-filter_data
 ```
 
 
-```{r}
+```{r,echo=FALSE}
 ggplot(filter_data, aes(x=Year, y=Raised, group=1))+
   geom_line() + 
   geom_point() + 
+  labs(title = "Raised Over the Years (2007-2019)",
+     x = "Year",
+     y = "Raised") +
   theme()
 ```
+
+
+
 It can be seen that fundraising increases every year.
 
+Now, we assume that raised is related to the year and other people counting information.
+
+```{r,echo=FALSE}
+selected_data <- filter_data %>% ungroup() %>%
+  select(Year, Applicants, Accepted, Starters, Finishers, Raised)
+
+# Build a linear regression model
+linear_model <- lm(Raised ~ Year + Applicants + Accepted + Starters + Finishers, data = selected_data)
+
+# Print a summary of the model
+summary(linear_model)
+```
+
+The estimate of Year in the linear regression model for Raised is 1.054e+00, which is a positive coefficient, indicating that the amount of funds raised over the years has been on an upward trend. The overall model seems to suggest a positive relationship between the year and fundraising amounts, indicating an increasing trend over time. And the coefficients for the number of applicants, accepted participants, starters, and finishers are not statistically significant. This suggests that, based on the current model, these variables may not have a significant impact on fundraising amounts.
 
 It can be seen from this plot that the winning time of men and women in wheelchairs has become significantly faster, while the winning time of normal men and women has gradually become faster, indicating that people are gradually paying attention to the competitiveness of marathon sports.
 
-```{r}
+```{r,echo=FALSE}
 # london marathon plot
 london_plot <- london_marathon %>%
   filter(Year < 2020) %>%
@@ -409,8 +426,8 @@ ggplot(
 ```
 
 
-### Trends in number of applicants, accepted, starters, and finishers over year
-```{r}
+### 4.1 Trends in number of applicants, accepted, starters, and finishers over year
+```{r,echo=FALSE}
 par(mfrow=c(2,2))
 sub_london <- london_marathon[1:39,]
 p1 <- ggplot(data= sub_london, aes(x=Year, y=Applicants ))+geom_point()+geom_line()+
@@ -424,8 +441,7 @@ p4 <- ggplot(data= sub_london, aes(x=Year, y=Finishers))+geom_point()+geom_line(
 grid.arrange(p1, p2, p3, p4, nrow=2, ncol=2)
 ```
 
-
-### Analyze the dataset using linear models
+### 4.2 Analyze the dataset using linear models
 In this part, we will use linear models to fit the data and predict the number of applicants, accepted, starters, and finishers in year 2024. 
 
 From the previous part, we can see that the number of accepted, starters, and finishers versus year are generally linear. So the models we will use are $$y_i=\beta_0+\beta_1x_i+\epsilon_i, \quad \epsilon_i \sim N(0,\sigma^2)$$
@@ -434,26 +450,8 @@ For number of applicants, the model we we will use is $$y_i=\beta_0+\beta_1x_i+\
 Moreover, we will check the normality of the residuals.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #### For the number of applicants
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 fit1 <- lm(Applicants ~ Year + I(Year^2)+ I(Year^3), data = sub_london)
 ggplot(sub_london, aes(x = Year, y = Applicants)) +
   geom_point(alpha = 0.5) +
@@ -464,7 +462,7 @@ ggplot(sub_london, aes(x = Year, y = Applicants)) +
 
 ##### Prediction
 
-```{r}
+```{r,echo=FALSE}
 new <- data.frame('Year'= 2024)
 predict(fit1, newdata = data.frame(new), interval = c("confidence"), level = 0.95, type="response")
 ```
@@ -472,7 +470,7 @@ predict(fit1, newdata = data.frame(new), interval = c("confidence"), level = 0.9
 The number of applicants is estimated to be 571826 in 2024. A $95\%$ prediction interval is $(498633, 645018)$.
 
 ##### Model Checking
-```{r}
+```{r,echo=FALSE}
 plot(fit1, which=1)
 plot(fit1, which=2)
 ```
@@ -480,7 +478,7 @@ plot(fit1, which=2)
 
 #### For the number of accepted 
 
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 fit2 <- lm(Accepted ~ Year, data = sub_london)
 ggplot(sub_london, aes(x = Year, y = Accepted)) +
   geom_point(alpha = 0.5) +
@@ -488,9 +486,10 @@ ggplot(sub_london, aes(x = Year, y = Accepted)) +
   theme_minimal() +
   labs(title = "SLR Model for Accepted", x = "Year", y = "Number of Accepted")
 ```
+
 ##### Prediction
 
-```{r}
+```{r,echo=FALSE}
 new <- data.frame('Year'= 2024)
 predict(fit2, newdata = data.frame(new), interval = c("confidence"), level = 0.95, type="response")
 ```
@@ -499,14 +498,14 @@ The number of applicants is estimated to be 63762 in 2024. A $95\%$ prediction i
 
 
 ##### Model Checking
-```{r}
+```{r,echo=FALSE}
 plot(fit2, which=1)
 plot(fit2, which=2)
 ```
 
 
 #### For the number of starters
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 fit3 <- lm(Starters ~ Year, data = sub_london)
 ggplot(sub_london, aes(x = Year, y = Starters)) +
   geom_point(alpha = 0.5) +
@@ -515,9 +514,10 @@ ggplot(sub_london, aes(x = Year, y = Starters)) +
   labs(title = "SLR Model for Starters", x = "Year", y = "Number of Starters")
 
 ```
+
 ##### Prediction
 
-```{r}
+```{r,echo=FALSE}
 new <- data.frame('Year'= 2024)
 predict(fit3, newdata = data.frame(new), interval = c("confidence"), level = 0.95, type="response")
 ```
@@ -526,14 +526,14 @@ The number of applicants is estimated to be 46119 in 2024. A $95\%$ prediction i
 
 
 ##### Model Checking
-```{r}
+```{r,echo=FALSE}
 plot(fit3, which=1)
 plot(fit3, which=2)
 ```
 
 
 #### For the number of finishers
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 fit4 <- lm(Finishers ~ Year, data = sub_london)
 ggplot(sub_london, aes(x = Year, y = Finishers)) +
   geom_point(alpha = 0.5) +
@@ -544,7 +544,7 @@ ggplot(sub_london, aes(x = Year, y = Finishers)) +
 
 ##### Prediction
 
-```{r}
+```{r,echo=FALSE}
 new <- data.frame('Year'= 2024)
 predict(fit4, newdata = data.frame(new), interval = c("confidence"), level = 0.95, type="response")
 ```
@@ -553,22 +553,23 @@ The number of applicants is estimated to be 46056 in 2024. A $95\%$ prediction i
 
 
 ##### Model Checking
-```{r}
+```{r,echo=FALSE}
 plot(fit4, which=1)
 plot(fit4, which=2)
 ```
 
 
 
-### Create new variables and visulization
+### 4.3 Create new variables and visulization
 Let $x$ denote the number of applicants in a year, $y_1$ the number of accepted in a year, $y_2$ the number of starters in a year, $y_3$ the number of finishers in a year. We define the ratio of accepted as $r_1=\frac{y_1}{x}$, ratio of starters as $r_2=\frac{y_2}{y_1}$, ratio of finishers as  $r_3=\frac{y_3}{y_2}$.
 
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 london_marathon <- london_marathon |> mutate(`Ratio of Accepted`=Accepted/Applicants)|>mutate(`Ratio of Starters`=Starters/Accepted)|> mutate(`Ratio of Finishers`=Finishers/Starters)
 print(london_marathon[, c("Year", "Ratio of Accepted", "Ratio of Starters","Ratio of Finishers")])
 
 
 ```
+
 Accepted to Started: Over the years, there is a general trend of a decline in the percentage of accepted participants who actually start the race.
 
 Started to Finished:
@@ -581,7 +582,7 @@ In 2020, there’s a notable observation in the “Accepted to Started” column
 
 This discrepancy could be due to the impact of external factors such as the COVID-19 pandemic, leading to a different pattern in that particular year.
 
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 sub_london1 <- london_marathon[1:39,]
 p1 <- ggplot(data= sub_london1, aes(x=Year, y=`Ratio of Accepted` ))+geom_point()+geom_line()+
   labs(title = "Ratio of Accepted")
@@ -592,12 +593,12 @@ p3 <- ggplot(data= sub_london1, aes(x=Year, y=`Ratio of Finishers` ))+geom_point
 grid.arrange(p1, p2, p3, ncol=1)
 ```
 
-### Time series analysis and forecasting
+### 4.4 Time series analysis and forecasting
 In this part, we will focus on four time series, which are number of applicants each year, ratio of accepted each year, ratio of starters each year, and ratio of finishers each year. We will use ARIMA(AutoRegressive Integrated Moving Average) model to analyze and make forecasts for the time series in London marathon dataset. For each time series, we will draw a forecasting plot of 10 years, check the autocorrelation function of the residuals, check the normality of the residuals, and do a Box-Ljung test(a statistical test used to check whether any of a group of autocorrelations of a time series are different from zero).
 
 
 
-```{r}
+```{r,echo=FALSE}
 # a function to plot the forecast errors
 plotForecastErrors <- function(forecasterrors)
   {
@@ -628,7 +629,7 @@ plotForecastErrors <- function(forecasterrors)
 
 ##### Forecasting the number of applicants in next 10 years
 
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 app <- london_marathon$Applicants[1:40]
 appts <- ts(app, ,frequency=1,start=1981)
 appts <- na.omit(appts)
@@ -644,14 +645,14 @@ The forecasting plot shows that there will be about 6000 annual increase of numb
 
 ##### Checking ACF of the residuals
 
-```{r}
+```{r,echo=FALSE}
 # check autocorrelation function with lag from 1 to 20
 acf(fc$residuals, lag.max=20,main="ACF Check for Resisuals")
 ```
 
 ##### Box-Ljung test for residuals
 
-```{r}
+```{r,echo=FALSE}
 # Box-Ljung test
 Box.test(fc$residuals, lag=20, type="Ljung-Box")
 ```
@@ -659,7 +660,7 @@ Box.test(fc$residuals, lag=20, type="Ljung-Box")
 
 ##### Checking normality of the residuals
 
-```{r}
+```{r,echo=FALSE}
 # histogram of forecasterrors
 plotForecastErrors(fc$residuals)
 ```
@@ -667,7 +668,7 @@ plotForecastErrors(fc$residuals)
 #### Analysis of ratio of accepted 
 
 ##### Forecasting ratio of accepted in next 10 years
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 roa <- london_marathon$`Ratio of Accepted`
 roats <- ts(roa, ,frequency=1,start=1981)
 roats <- na.approx(roats)
@@ -683,19 +684,19 @@ The forecasting plot shows that the ratio of accepted for London marathon in the
 
 ##### Checking ACF of the residuals
 
-```{r}
+```{r,echo=FALSE}
 # check autocorrelation function with lag from 1 to 20
 acf(fc2$residuals, lag.max=20,main="ACF Check for Resisuals")
 ```
 
 ##### Box-Ljung test for residuals
-```{r}
+```{r,echo=FALSE}
 # Box-Ljung test
 Box.test(fc2$residuals, lag=20, type="Ljung-Box")
 ```
 
 ##### Checking normality of the residuals
-```{r}
+```{r,echo=FALSE}
 # histogram of forecasterrors
 plotForecastErrors(fc2$residuals)
 ```
@@ -703,7 +704,7 @@ plotForecastErrors(fc2$residuals)
 #### Analysis of ratio of starters
 
 ##### Forecasting ratio of starters in next 10 years
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 ros <- london_marathon$`Ratio of Starters`
 rosts <- ts(ros, ,frequency=1,start=1981)
 rosts <- na.approx(rosts)
@@ -715,17 +716,17 @@ plot(fc3,xlab = "Year", ylab= "Number of Applicants", main = "Forecasts of Ratio
 The forecasting plot shows that the ratio of accepted for London marathon in the next 10 years will decrease. 
 
 ##### Checking ACF of the residuals
-```{r}
+```{r,echo=FALSE}
 acf(fc3$residuals, lag.max=20,main="ACF Check for Resisuals")
 ```
 
 ##### Box-Ljung test for residuals
-```{r}
+```{r,echo=FALSE}
 Box.test(fc3$residuals, lag=20, type="Ljung-Box")
 ```
 
 ##### Checking normality of the residuals
-```{r}
+```{r,echo=FALSE}
 plotForecastErrors(fc3$residuals)
 ```
 
@@ -734,7 +735,7 @@ plotForecastErrors(fc3$residuals)
 
 ##### Forecasting the ratio of finishers in next 10 years
 
-```{r, fold.output=FALSE, fold.plot=FALSE}
+```{r,echo=FALSE}
 rof <- london_marathon$`Ratio of Finishers`
 rofts <- ts(rof, ,frequency=1,start=1981)
 rofts <- na.approx(rofts)
@@ -747,19 +748,19 @@ plot(fc4,xlab = "Year", ylab= "Number of Applicants", main = "Forecasts of Ratio
 The forecasting plot shows that the ratio of finishers for London marathon in the next 10 years will remain constant. 
 
 ##### Checking ACF of the residuals
-```{r}
+```{r,echo=FALSE}
 acf(fc4$residuals, lag.max=20,main="ACF Check for Resisuals")
 
 ```
 
 ##### Box-Ljung test for residuals
-```{r}
+```{r,echo=FALSE}
 Box.test(fc4$residuals, lag=20, type="Ljung-Box")
 ```
 
 ##### Checking normality of the residuals
 
-```{r}
+```{r,echo=FALSE}
 plotForecastErrors(fc4$residuals)
 ```
 
@@ -770,6 +771,49 @@ The histograms of the time series show that the forecast errors are roughly norm
 
 Since successive forecast errors do not seem to be correlated, and the forecast errors seem to be normally distributed with means zeros and constant variances, the ARIMA(s) do seem to provide adequate predictive models for the dataset.
 
+### 4.5 Relating two data sets
+
+To associate these two data sets, we start from the same field of year.
+Now we can explore whether winning time is related to the number of finishers in that year.
+We have reason to believe that the more finishers, the faster the winning time, due to the competitive nature of the elite.(hypothesis)
+
+```{r,echo=FALSE}
+filter_data2 <- london_marathon %>% filter(Year <= 2019)
+winners_subset <- winners %>%
+  select(Year, Time)
+merged_data <- left_join(filter_data2, winners_subset, by = "Year")
+
+correlation_coefficient <- cor(merged_data$Time, merged_data$Finishers, use = "complete.obs")
+print(paste("Correlation Coefficient:", correlation_coefficient))
+plot(merged_data$Finishers, merged_data$Time,
+     xlab = "Number of Finishers",
+     ylab = "Winning Time",
+     main = "Relationship Between Finishers and Winning Time")
+abline(lm(Time ~ Finishers, data = merged_data, na.action = na.exclude), col = "red")
+
+```
+
+Correlation Coefficient is  -0.493, the moderate negative correlation suggests that there is a tendency for winning time to decrease as the number of finishers increases.
+The number of participants represents the size of the marathon, so can we assume that there is also a correlation between the number of participants and winning time?
+
+```{r,echo=FALSE}
+filter_data2 <- london_marathon %>% filter(Year <= 2019)
+winners_subset <- winners %>%
+  select(Year, Time)
+merged_data <- left_join(filter_data2, winners_subset, by = "Year")
+
+correlation_coefficient <- cor(merged_data$Time, merged_data$Applicants, use = "complete.obs")
+print(paste("Correlation Coefficient:", correlation_coefficient))
+
+plot(merged_data$Finishers, merged_data$Time,
+     xlab = "Number of Applicants",
+     ylab = "Winning Time",
+     main = "Relationship Between Applicants and Winning Time")
+abline(lm(Time ~ Finishers, data = merged_data, na.action = na.exclude), col = "red")
+
+```
+
+Correlation Coefficient is  -0.316, the mild to moderate negative correlation suggests that there is a tendency for winning time to decrease as the number of applicants increases.
 
 
 
