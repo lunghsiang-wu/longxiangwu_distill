@@ -13,7 +13,7 @@ output:
     code_folding: hide 
 ---
 
-![London Marathon](images/LM.jpg)
+![London Marathon](LM.jpg)
 
 
 
