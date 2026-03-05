@@ -1,57 +1,43 @@
 ---
-title: "About Me"
-description: |
-  Welcome to the website. I am a data scientist who helps insurance companies do customers profiling.
+title: "Longxiang Wu"
 site: distill::distill_website
+image: "longxiangwu.png"
+links:
+  - label: '<i class="fab fa-github"></i> GitHub'
+    url: "https://github.com/lunghsiang-wu"
+  - label: '<i class="fab fa-linkedin"></i> LinkedIn'
+    url: "www.linkedin.com/in/longxiang-wu-003506106"
+  - label: '<i class="fab fa-mastodon"></i> Mastodon'
+    url: "https://fosstodon.org/\\@longxiangwu"
+  - label: '<i class="fas fa-envelope"></i> Email'
+    url: "longxiangwu@outlook.com"
+base_url: https://longxiangwu.netlify.app
+preview: longxiangwu.png
+twitter:
+  creator: "@Longxiang Wu"
+  site: "@Longxiang Wu"
+output:
+  postcards::jolla
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
-
+ 
+```{r setup, message=FALSE, warning=FALSE, include=FALSE}
+library(metathis)
+meta() %>%
+  meta_description(
+    "The personal website of Longxiang Wu"
+  ) %>%
+  #meta_name("github-repo" = "jhelvy/jhelvy.com") %>%
+  meta_viewport() %>%
+  meta_social(
+    title = "https://longxiangwu.netlify.app",
+    url = "https://longxiangwu.netlify.app",
+    image = "https://github.com/lunghsiang-wu/longxiangwu_distill/blob/master/longxiangwu.png?raw=true",
+    image_alt = "A photo of Longxiang Wu",
+    og_type = "website",
+    og_author = c("Longxiang Wu"),
+    twitter_card_type = "summary",
+    twitter_creator = "@Longxiang Wu"
+  )
 ```
-
-![](longxiangwu.png){width=50%}
-
-<center>
-:::: {style="display: flex;"}
-
-::: {}
-
-![Cavitation phenomenon](images/bubbles.JPG){width=90%}
-
-![Sunset in Maynooth Kildare](images/sunset.jpg){width=90%}
-
-:::
-
-::: {}
-
-![A train station in Greenfield Maynooth](images/train.jpg){width=70%}
-
-![A mathematical sculpture in front of mathematics department of Stony Brook University](images/sculpture.JPG){width=70%}
-
-:::
-
-::::
-
-
-</center>
-
-## Education
-
-MSc in Data Science and Analytics, 2024
-National University of Ireland, Maynooth
-
-
-BEng in Naval Architecture and Ocean Engineering, 2012
-Naval University of Engineering
-
-## Work Experience
-
-
-## Contact
-
-The easiest way to contact me, is to add my WeChat ['@Xiang'](images/xiang.png)! If you are interested in collaboration, feel free to [email me](longxiangwu@outlook.com).
-
+ 
+Hi! <span class="wave">👋</span> I am a data scientist who helps insurance companies do customers profiling. I love wrangling, modeling, and visualizing data, and helping others do the same. 

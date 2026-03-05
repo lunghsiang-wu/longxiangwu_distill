@@ -1,0 +1,19 @@
+[
+  {
+    "path": "blog/2026-03-05-whatisbayesiananalysis/",
+    "title": "What is Bayesian analysis?",
+    "description": "A statistical technique to update our believes",
+    "author": [
+      {
+        "name": "Longxiang Wu",
+        "url": "https://longxiangwu.netlify.app"
+      }
+    ],
+    "date": "2023-12-11",
+    "categories": [],
+    "contents": "\nBayesian analysis is a statistical paradigm that answers research questions about unknown parameters using probability statements.\nFor example, what is the probability that the average male height is between 70 and 80 inches or that the average female height is between 60 and 70 inches? What is the probability that people in a particular state vote Republican or vote Democratic? What is the probability that a person accused of a crime is guilty? What is the probability that treatment A is more cost effective than treatment B for a specific health care provider? What is the probability that a patient’s blood pressure decreases if he or she is prescribed drug A? What is the probability that the odds ratio is between 0.3 and 0.5? What is the probability that three out of five quiz questions will be answered correctly by students? What is the probability that children with ADHD underperform relative to other children on a standardized test? What is the probability that there is a positive effect of schooling on wage? What is the probability that excess returns on an asset are positive? And many more.\nSuch probabilistic statements are natural to Bayesian analysis because of the underlying assumption that all parameters are random quantities. In Bayesian analysis, a parameter is summarized by an entire distribution of values instead of one fixed value as in classical frequentist analysis. Estimating this distribution, a posterior distribution of a parameter of interest, is at the heart of Bayesian analysis.\nA posterior distribution comprises a prior distribution about a parameter and a likelihood model providing information about the parameter based on observed data. Depending on the chosen prior distribution and likelihood model, the posterior distribution is either available analytically or approximated by, for example, one of the Markov chain Monte Carlo (MCMC) methods.\nBayesian inference uses the posterior distribution to form various summaries for the model parameters, including point estimates such as posterior means, medians, percentiles, and interval estimates known as credible intervals. Moreover, all statistical tests about model parameters can be expressed as probability statements based on the estimated posterior distribution.\nUnique features of Bayesian analysis include an ability to incorporate prior information in the analysis, an intuitive interpretation of credible intervals as fixed ranges to which a parameter is known to belong with a prespecified probability, and an ability to assign an actual probability to any hypothesis of interest.\n\n\n\n",
+    "preview": "blog/2026-03-05-whatisbayesiananalysis/bayesian.jpg",
+    "last_modified": "2026-03-05T10:02:57+08:00",
+    "input_file": {}
+  }
+]

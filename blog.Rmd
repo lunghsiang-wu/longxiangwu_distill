@@ -1,4 +1,6 @@
 ---
-title: "Portfolios"
-listing: posts
+title: "Blog"
+twitter:
+  creator: "@Longxiang Wu"
+listing: blog
 ---
