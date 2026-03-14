@@ -2,23 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://longxiangwu.netlify.app/about.html</loc>
-    <lastmod>2026-03-05T13:53:11+08:00</lastmod>
+    <lastmod>2026-03-14T09:52:34+08:00</lastmod>
   </url>
   <url>
     <loc>https://longxiangwu.netlify.app/blog.html</loc>
-    <lastmod>2026-03-05T13:53:11+08:00</lastmod>
+    <lastmod>2026-03-14T09:52:34+08:00</lastmod>
   </url>
   <url>
     <loc>https://longxiangwu.netlify.app/</loc>
-    <lastmod>2026-03-05T13:53:11+08:00</lastmod>
+    <lastmod>2026-03-14T09:52:34+08:00</lastmod>
   </url>
   <url>
     <loc>https://longxiangwu.netlify.app/portfolio.html</loc>
-    <lastmod>2026-03-05T13:53:11+08:00</lastmod>
+    <lastmod>2026-03-14T09:52:34+08:00</lastmod>
   </url>
   <url>
     <loc>https://longxiangwu.netlify.app/blog/2026-03-05-whatisbayesiananalysis/</loc>
     <lastmod>2026-03-05T10:02:57+08:00</lastmod>
+  </url>
+  <url>
+    <loc>https://longxiangwu.netlify.app/portfolio/2026-03-14-vastcar/</loc>
+    <lastmod>2026-03-14T10:16:36+08:00</lastmod>
   </url>
   <url>
     <loc>https://longxiangwu.netlify.app/portfolio/2026-03-05-londonmarathon/</loc>
