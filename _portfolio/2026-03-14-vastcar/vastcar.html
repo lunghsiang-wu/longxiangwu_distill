@@ -1559,7 +1559,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <figcaption aria-hidden="true">Figure 1: Cadillac ATS Luxury Edition in 2013 and Becles Bray in 1997</figcaption>
 </figure>
 <p>Detecting outly values is conducive to correcting errors and providing users with excellent and suitable products.</p>
-<h2 id="data-set-description">1. Data set description</h2>
+<h3 id="data-set-description">1. Data set description</h3>
 <p>The data set includes the training data set and the test data set:
 - <code>accord_sedan_testing.csv</code>
 - <code>accord_sedan_training.csv</code></p>
@@ -1622,7 +1622,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tr>
 </tbody>
 </table>
-<h2 id="import-data-sets-and-segment-them">2. Import data sets and segment them</h2>
+<h3 id="import-data-sets-and-segment-them">2. Import data sets and segment them</h3>
 <!-- #endregion -->
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># Read the data table and perform operations based on the DataFrame structure</span></span>
@@ -1663,7 +1663,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>train_x <span class="op">=</span> train.drop(<span class="st">&#39;price&#39;</span>,axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>train_y <span class="op">=</span> train[<span class="st">&#39;price&#39;</span>]</span></code></pre></div>
 </div>
-<h2 id="feature-extraction-and-construction-of-linear-regression-model">3. Feature extraction and construction of linear regression model</h2>
+<h3 id="feature-extraction-and-construction-of-linear-regression-model">3. Feature extraction and construction of linear regression model</h3>
 <p>Use the <code>DictVectorizer</code> in <code>sklearn.feature_extraction</code> to realise One-Hot encoding of nominal variables to obtain a 10-dimensional vector space, including:</p>
 <ul>
 <li>engine=4 Cyl</li>
@@ -1718,7 +1718,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>               <span class="bu">zip</span>(dv.feature_names_, LR.coef_))))</span></code></pre></div>
 <pre><code>&#39;16330.60 + (-290.57 engine=4 Cyl) + (290.57 engine=6 Cyl) + (-0.05 mileage) + (0.00 price) + (333.27 transmission=Automatic) + (-333.27 transmission=Manual) + (535.20 trim=ex) + (106.68 trim=exl) + (-641.88 trim=lx) + (0.00 year)&#39;</code></pre>
 </div>
-<h2 id="out-group-value-detection">4. Out-group value detection</h2>
+<h3 id="out-group-value-detection">4. Out-group value detection</h3>
 <p>The model obtained by fitting the test set, we can predict the price of the test set, calculate the absolute error of each sample, and derive</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pred_y <span class="op">=</span> LR.predict(dv.transform(train.T.to_dict().values()))</span>
@@ -1772,7 +1772,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 <p>The results of the above figure are also in line with our experience. The higher the mileage of a used car, the lower the price it sells, so for the points in the upper right and lower left areas, there may be some out-of-group values (for the same car). For example, the point in the lower left area, some vehicles with low mileage and low price, may be an accident vehicle or damaged, and the out-of-group value in the upper right area may be the real out-of-group value, which is relatively not easy to have a reasonable explanation, which may be caused by input errors or fat finger input.</p>
 <p>There are only more than 400 data in this case. If there is more data, the test results will be more reliable.</p>
-<h2 id="the-impact-of-standardisation-on-the-detection-of-outlie-values">5.The impact of standardisation on the detection of outlie values</h2>
+<h3 id="the-impact-of-standardisation-on-the-detection-of-outlie-values">5.The impact of standardisation on the detection of outlie values</h3>
 <p>Usually, in order to avoid the influence of different scales. We need to standardise each feature before fitting the linear regression model. Common standardisations include z-score standardisation, 0-1 standardisation, etc. Here we choose z-score standardisation to observe the impact of standardisation on the detection of outly values.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardise the features using the `preprocessing.scale` function</span></span>
@@ -1832,7 +1832,7 @@ Name: count, dtype: int64</code></pre>
 <p><img src="vastcar_files/figure-html5/unnamed-chunk-14-5.png" alt="" width="672" /></p>
 </div>
 <p>It can be seen from the results that the test results of the vast majority of samples are consistent. There are two samples that differ. One sample will be detected as an out-of-the-group value before standardisation, and the other sample will be detected as an out-of-group value after standardisation. Although there is not much difference in the detection effect before and after standardisation in this case, we still recommend that the features be standardised before linear modelling.</p>
-<h2 id="verification-of-the-test-set">6.Verification of the test set</h2>
+<h3 id="verification-of-the-test-set">6.Verification of the test set</h3>
 <p>Let’s first draw all the sample points of the training set and the test set with mileage as the horizontal coordinate and price as the vertical coordinate.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> pd.read_csv(<span class="st">&#39;accord_sedan_testing.csv&#39;</span>)</span>
@@ -1887,7 +1887,7 @@ Name: 49, dtype: object</code></pre>
 <p>Based on experience, we speculate that there are two possibilities for this out-of-group sample:</p>
 <p>1.There is an error when filling in the website;</p>
 <p>2.The vehicle has damage to the body or car ownership problems (stolen or robbed)</p>
-<h2 id="use-lof-for-outly-value-detection-in-the-test-set">7.Use LOF for outly value detection in the test set</h2>
+<h3 id="use-lof-for-outly-value-detection-in-the-test-set">7.Use LOF for outly value detection in the test set</h3>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> pd.read_csv(<span class="st">&#39;accord_sedan_testing.csv&#39;</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>,<span class="dv">7</span>))</span>
@@ -2045,7 +2045,7 @@ lof_k(x) = \frac{1}{k} \sum_{y \in N_k(x)} \frac{lrd_k(y)}{lrd_k(x)}
 <span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>        plt.grid(<span class="st">&#39;on&#39;</span>)</span></code></pre></div>
 <p><img src="vastcar_files/figure-html5/unnamed-chunk-23-13.png" alt="" width="672" /></p>
 </div>
-<h3 id="another-more-chaotic-way-of-writing">Another more chaotic way of writing</h3>
+<h4 id="another-more-chaotic-way-of-writing">Another more chaotic way of writing</h4>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>test_2d <span class="op">=</span> test[[<span class="st">&#39;mileage&#39;</span>,<span class="st">&#39;price&#39;</span>]]</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> NearestNeighbors</span>

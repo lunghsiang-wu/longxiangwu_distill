@@ -6,29 +6,29 @@
       "description": "Some additional details about the website",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2026-03-05T10:36:16+08:00"
+      "last_modified": "2026-03-14T21:10:50+08:00"
     },
     {
       "path": "blog.html",
       "title": "Blog",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2026-03-05T10:36:17+08:00"
+      "last_modified": "2026-03-14T21:10:51+08:00"
     },
     {
       "path": "index.html",
       "title": "Longxiang Wu",
       "author": [],
       "contents": "\n\n          \n          \n          Longxiang Wu\n          \n          \n          Home\n          About\n          Blog\n          Portfolio\n          CV\n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          \n          ☰\n          \n          \n      \n        \n          \n            Longxiang Wu\n          \n          \n            \n              Hi! 👋 I am a data scientist\n              who helps insurance companies do customers profiling. I\n              love wrangling, modeling, and visualizing data, and\n              helping others do the same.\n            \n            \n              Hi! 👋 I am a data scientist\n              who helps insurance companies do customers profiling. I\n              love wrangling, modeling, and visualizing data, and\n              helping others do the same.\n            \n          \n\n          \n            \n              \n                  \n                    \n                       GitHub\n                    \n                  \n                \n                                \n                  \n                    \n                       LinkedIn\n                    \n                  \n                \n                                \n                  \n                    \n                       Mastodon\n                    \n                  \n                \n                                \n                  \n                    \n                       Email\n                    \n                  \n                \n                              \n          \n\n          \n            \n              \n                                \n                  \n                     GitHub\n                  \n                \n                                \n                  \n                     LinkedIn\n                  \n                \n                                \n                  \n                     Mastodon\n                  \n                \n                                \n                  \n                     Email\n                  \n                \n                              \n            \n          \n        \n      \n    \n\n    \n    \n    \n          © Longxiang Wu 2026. Made with the R distill package.\n          \n          \n\n    \n  ",
-      "last_modified": "2026-03-05T10:36:22+08:00"
+      "last_modified": "2026-03-14T21:10:58+08:00"
     },
     {
       "path": "portfolio.html",
       "title": "Portfolio",
       "author": [],
       "contents": "\n\n\n\n",
-      "last_modified": "2026-03-05T10:36:24+08:00"
+      "last_modified": "2026-03-14T21:10:59+08:00"
     }
   ],
-  "collections": ["posts/posts.json", "blog/blog.json", "portfolio/portfolio.json"]
+  "collections": ["blog/blog.json", "portfolio/portfolio.json"]
 }

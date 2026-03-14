@@ -43,7 +43,7 @@ Vast's car data is provided by thousands of second-hand car sellers and publishe
 
 Detecting outly values is conducive to correcting errors and providing users with excellent and suitable products.
 
-## 1. Data set description
+### 1. Data set description
 The data set includes the training data set and the test data set:
 - `accord_sedan_testing.csv`
 - `accord_sedan_training.csv`
@@ -62,7 +62,7 @@ The test data set `accord_sedan_training.csv` contains an information list of 41
 | *transmission* | Gear shifting method | str | Manual：Manual transmission <br> Automatic：Automatic transmission |
 
 
-## 2. Import data sets and segment them
+### 2. Import data sets and segment them
 <!-- #endregion -->
 
 ```{python}
@@ -99,7 +99,7 @@ train_x = train.drop('price',axis=1)
 train_y = train['price']
 ```
 
-## 3. Feature extraction and construction of linear regression model
+### 3. Feature extraction and construction of linear regression model
 Use the `DictVectorizer` in `sklearn.feature_extraction` to realise One-Hot encoding of nominal variables to obtain a 10-dimensional vector space, including:
 
 - engine=4 Cyl
@@ -147,7 +147,7 @@ LR = LinearRegression().fit(train_x_array,train_y)
                zip(dv.feature_names_, LR.coef_))))
 ```
 
-## 4. Out-group value detection
+### 4. Out-group value detection
 The model obtained by fitting the test set, we can predict the price of the test set, calculate the absolute error of each sample, and derive
 
 ```{python}
@@ -205,7 +205,7 @@ The results of the above figure are also in line with our experience. The higher
 
 There are only more than 400 data in this case. If there is more data, the test results will be more reliable.
 
-## 5.The impact of standardisation on the detection of outlie values
+### 5.The impact of standardisation on the detection of outlie values
 Usually, in order to avoid the influence of different scales. We need to standardise each feature before fitting the linear regression model. Common standardisations include z-score standardisation, 0-1 standardisation, etc. Here we choose z-score standardisation to observe the impact of standardisation on the detection of outly values.
 
 ```{python}
@@ -264,7 +264,7 @@ sns.set_style('dark')
 
 It can be seen from the results that the test results of the vast majority of samples are consistent. There are two samples that differ. One sample will be detected as an out-of-the-group value before standardisation, and the other sample will be detected as an out-of-group value after standardisation. Although there is not much difference in the detection effect before and after standardisation in this case, we still recommend that the features be standardised before linear modelling.
 
-## 6.Verification of the test set
+### 6.Verification of the test set
 Let's first draw all the sample points of the training set and the test set with mileage as the horizontal coordinate and price as the vertical coordinate.
 
 ```{python}
@@ -319,7 +319,7 @@ Based on experience, we speculate that there are two possibilities for this out-
 
 2.The vehicle has damage to the body or car ownership problems (stolen or robbed)
 
-## 7.Use LOF for outly value detection in the test set
+### 7.Use LOF for outly value detection in the test set
 
 ```{python}
 test = pd.read_csv('accord_sedan_testing.csv')
@@ -492,7 +492,7 @@ for i in data.index:
         plt.grid('on')
 ```
 
-### Another more chaotic way of writing
+#### Another more chaotic way of writing
 
 ```{python}
 test_2d = test[['mileage','price']]
