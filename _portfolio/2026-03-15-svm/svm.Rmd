@@ -1,0 +1,163 @@
+---
+title: "Using a Support Vector Machine for Optical Character Recognition"
+description: "A classification project"
+author:
+  - name: "Longxiang Wu"
+date: 2024-05-01
+output:
+  distill::distill_article:
+    self_contained: false
+---
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.19.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+```{r setup, include=FALSE}
+library(reticulate)
+use_python("/Users/Zhuanz/anaconda3/bin/python3.11", required = TRUE)
+# or use your conda environment
+use_condaenv("base", required = TRUE)
+```
+
+<!-- #region -->
+
+OCR (Optical Character Recognition) refers to electronic devices (such as scanners or digital cameras) checking the characters printed on paper, determining their shapes by detecting dark and bright patterns, and then translating the shapes by character recognition methods. The process of computer characters; that is, for printed characters, the text in the paper document is converted into a black-and-white image file by optical means, and the text in the image is processed into a text format through the character recognition model.
+
+Optical character recognition is the core of OCR, but for many types of machine learning algorithms, this image processing is a difficult task. The relationship between connecting pixel patterns to higher concepts is extremely complex and difficult to define. For example, it is easy for a person to recognise a face, a cat or the letter A, but it is difficult to define these patterns with strict rules. In addition, image data is often noise data. For optical character images, lighting, positioning and object position can affect the final image data. The support vector machine is very suitable for processing image data. It can learn complex patterns without being overly sensitive to noise data, and can recognise optical patterns with high accuracy.
+
+In this case, we will use the public optical character data set and support vector machine to build an optical character recognition model.
+
+### 1.Data source
+We will use UCI's optical character recognition data set (http://archive.ics.uci.edu/ml/datasets/Letter+Recognition). The data set contains 20,000 samples of 26 English capital letters. Each sample represents a rectangular area in the optical image, which contains only a single character. Each sample contains 16 independent variables and letter target variables, and letter indicates which letter the current sample is. The specific meaning of each characteristic variable is as follows:
+
+- letter (A,B,...,Z)
+- x-box The horizontal position of the rectangular area where the character is located
+- y-box The vertical position of the rectangular area where the character is located
+- width The width of the rectangular area
+- high The height of the rectangular area
+- onpix The number of black pixels in the matrix area
+- x-bar The average x value of black pixels in the rectangular area
+- y-bar The average y value of black pixels in the rectangular area
+- x2bar X average variance
+- y2bar Y average variance
+- xybar The average correlation between x and y
+- x2ybr mean of x x y
+- xy2br mean of x y y
+- x-ege The number of edges from left to right
+- xegvy The correlation between the edge of x and y
+- y-ege The number of edges from bottom to top
+- yegvx The correlation between the edge of y and x
+
+### 2.Data exploration and preprocessing
+Our data set contains 16 characteristic variables, which measure a character by the horizontal and vertical positions of the character's rectangular area, the proportion of black pixels, the average and vertical positions of black pixels. First, we use the read_csv() function in pandas to import data:
+
+
+```{python}
+import pandas as pd
+letters = pd.read_csv("dataset/letterecognition.csv")
+letters.head(10)
+```
+
+First of all, using the value_counts() function of Series in pandas, we observe the distribution of the number of each character in the data set. The sort_index() function can display the results in alphabetical order.
+
+```{python}
+letters["letter"].value_counts().sort_index()
+```
+
+It can be seen that the distribution of the sample number of each character is relatively even. Now, let's further observe the value distribution of each independent variable:
+
+```{python}
+letters.iloc[:,1:].describe()
+```
+
+It is observed that the value range of 16 independent variables is between 0 and 15, so we don't need to standardise the variables for this data set. In addition, the author of the data set has randomly arranged the samples, so we don't need to randomly scatter the data. Here, we directly take the first 14,000 samples (70%) as the training set, and the last 6,000 samples (30%) as the test set.
+
+```{python}
+letters_train = letters.iloc[0:14000,]
+letters_test = letters.iloc[14000:20000,]
+```
+
+### 3.Model training
+In this case, we will use the relevant classes in the sklearn.svm package to build an optical character recognition model based on support vector machines. In the sklearn.svm package, three classes have implemented support vector machine algorithms: SVC, NuSVC and LinearSVC. There are subtle differences between the parameters accepted by SVC and NuSVC, and the mathematical forms at the bottom are different. LinearSVC, on the other hand, uses a simple linear kernel function, which is realised based on liblinear (https://www.csie.ntu.edu.tw/~cjlin/liblinear/), for large-scale sample training speed The degree will be faster. For the specific introduction of these three support vector machines, please refer to the official document of sklearn http://scikit-learn.org/stable/modules/svm.html.
+
+In this case, we choose SVC for model construction. There are two main parameters that can be set in SVC: the kernel function parameter kernel and the constraint penalty parameter C. The commonly used values of kernel function parameter kernel and their corresponding meanings are as follows:
+- "linear": linear nuclear function
+- "poly": polynomial nuclear function
+- "rbf": radial base kernel function
+- "sigmoid": sigmoid nuclear function
+
+The constraint penalty parameter C is a penalty item for samples that exceed the constraints. The larger the C value, the greater the punishment, and the narrower the decision-making boundary of the support vector machine.
+
+Now, we can use the training set to build a classification model. We choose the simplest linear kernel function, and C adopts the default value of 1.
+
+```{python}
+from sklearn.svm import SVC
+letter_recognition_model = SVC(C = 1, kernel = "linear")
+letter_recognition_model.fit(letters_train.iloc[:,1:],letters_train['letter'])
+```
+
+### 4. Model performance evaluation
+First, use the predict() function to obtain the prediction results of the support vector machine model trained in the previous section on the test set, and then use the relevant function in sklearn.metrics to evaluate the performance of the model.
+
+```{python}
+from sklearn import metrics
+letters_pred = letter_recognition_model.predict(letters_test.iloc[:,1:])
+print (metrics.classification_report(letters_test["letter"], letters_pred))
+print (pd.DataFrame(metrics.confusion_matrix(letters_test["letter"], letters_pred),\
+                  columns = letters["letter"].value_counts().sort_index().index,\
+                  index = letters["letter"].value_counts().sort_index().index))
+```
+
+The diagonal elements in the above confusion matrix represent the correct predicted number of the model, and the sum of the diagonal elements represents the number of samples predicted correctly by the model as a whole. The value on the non-diagonal element can reflect which types of predictions the model is prone to make mistakes. For example, the value of column F of row P is 25, indicating that the model has mistakenly identified the "P" character as the "F" character 25 times. Intuitively, the similarity between "P" and "F" is relatively high, and it is more challenging to distinguish them. Now, let's use this to calculate the prediction accuracy of the model in the test set.
+
+```{python}
+agreement = letters_test["letter"] == letters_pred
+print (agreement.value_counts())
+print ("Accuracy:", metrics.accuracy_score(letters_test["letter"], letters_pred))
+```
+
+It can be seen that our preliminary model correctly predicted 5,068 out of 6,000 test samples, and the overall accuracy rate (Accuaray) was 84.47%.
+
+### 5.Model performance improvement
+For the support vector machine, there are two main parameters that can affect the performance of the model: one is the selection of the kernel function, and the other is the selection of the penalty parameter C. Next, we hope to further improve the predictive performance of the model by trying these two parameters separately.
+
+#### 5.1 Selection of nuclear functions
+In SVC, the optional values of the kernel parameter kernel are "rbf" (radial base function), "poly" (polynomial kernel function), "sigmoid" (sigmoid kernel function) and "linear" (linear kernel function). Our initial model chooses linear kernel functions. Next, we will observe the changes in the correctness of the model under the other three nuclear functions.
+
+```{python}
+kernels = ["rbf","poly","sigmoid"]
+for kernel in kernels:
+    letters_model = SVC(C = 1, kernel = kernel)
+    letters_model.fit(letters_train.iloc[:,1:],letters_train['letter'])
+    letters_pred = letters_model.predict(letters_test.iloc[:,1:])
+    print ("kernel = ", kernel , ", Accuracy:",\
+    metrics.accuracy_score(letters_test["letter"], letters_pred))
+```
+
+It can be seen from the results that when the RBF kernel function is selected, the model accuracy rate increased from 84.47% to 91.7%. The correctness rate of the model under the polynomial kernel function is 94.12%. The correct rate of the model under the sigmoid kernel function is only 5.12%.
+
+
+### 5.2 Selection of penalty parameter C
+We will test the changes in the correctness of the character recognition model when C=0.01,0.1,1,10,100 respectively. The nuclear function chooses the radial base function (i.e. "rbf").
+
+```{python}
+c_list = [0.01, 0.1, 1, 10, 100]
+for C in c_list:
+    letters_model = SVC(C = C, kernel = "rbf")
+    letters_model.fit(letters_train.iloc[:,1:],letters_train['letter'])
+    letters_pred = letters_model.predict(letters_test.iloc[:,1:])
+    print ("C = ", C , ", Accuracy:",\
+    metrics.accuracy_score(letters_test["letter"], letters_pred))
+```
+
+It can be seen that when the penalty parameters C are set to 10 and 100, the model accuracy rate is further improved, reaching 96.22% and 96.92% respectively.
