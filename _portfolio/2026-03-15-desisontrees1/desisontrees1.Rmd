@@ -1,0 +1,224 @@
+---
+title: "Using Decision Trees for Personal Credit Risk Assessment"
+description: "A classification project"
+author:
+  - name: "Longxiang Wu"
+date: 2024-02-28
+output:
+  distill::distill_article:
+    self_contained: false
+---
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.19.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+```{r setup, include=FALSE}
+library(reticulate)
+use_python("/Users/Zhuanz/anaconda3/bin/python3.11", required = TRUE)
+# or use your conda environment
+use_condaenv("base", required = TRUE)
+```
+
+<!-- #region -->
+
+The global financial crisis of 2007-2008 highlighted the importance of transparency and strictness in banking. As credit supply is restricted, banks are increasingly tightening their lending systems and turning to machine learning to more accurately identify high-risk loans.
+
+The decision tree model is highly accurate and interpretable, so it is widely used in the banking industry. In many countries, government agencies closely monitor the loan business, so banks need to clearly explain why an applicant's loan application was rejected or approved. This explainability is also very important for loan applicants, who need to know why their credit rating does not meet the requirements of the bank.
+
+By building an automated credit score model, instant credit approval online can save a lot of labour costs for banks. In this case, we will use the C5.0 decision tree to establish a simple personal credit risk assessment model.
+
+### 1.Data source
+
+Use the German credit data set on UCI. The data set contains 1,000 loan information, and each loan has 20 independent variables and one class variable to record whether the loan is defaulted. We will use this data set to build a model to predict whether the loan defaults.
+
+### 2. Data explore and preprocessing
+
+First, use the read_csv() function of pandas to read the data.
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+credit = pd.read_csv("credit.csv")
+credit.head(10)
+```
+
+It can be seen that the data set contains 1,000 samples and 21 variables. Variable types include both factor variables and numerical variables. Use the value_counts() function to view the check balance variable check_balance and the savings account balance variable savings_balance.
+
+```{python}
+credit.checking_balance.value_counts()
+```
+
+```{python}
+credit.savings_balance.value_counts()
+```
+
+The units of the above two variables are Deutsche Mark (DM). Intuitively, the larger the balance of the check and savings account, the less likely the loan default. The loan data set also has some numerical variables, such as months_loan_duration and amount.
+
+```{python}
+credit[["months_loan_duration","amount"]].describe()
+```
+
+```{python}
+credit[["months_loan_duration","amount"]].median()
+```
+
+It can be seen that the loan term is 4~72 months, and the median is 18 months. The loan application amount is between 250 and 18420 marks, and the median is 2320 marks. The variable default indicates whether the loan is defaulted, and it is also the target variable we need to predict. Out of 1,000 loans, 30% of the loan applicants defaulted.
+
+```{python}
+credit.default.value_counts()
+```
+
+Banks don't want to lend to customers with high default rates, because these customers will bring losses to the bank. If the goal of modelling is to identify customers who may default, the number of defaults will never be reduced.
+
+### Divide the training set and the test set
+Before formal modelling, we need to divide the data set into two parts: the training set and the test set. Among them, the training set is used to build a decision tree model, and the test set is used to evaluate the performance of the model. We will use 70% of the data as training data and 30% as training data. Before dividing the data, we also need to encode the variables in the form of strings in the data with integers.
+
+
+```{python}
+col_dicts = {}
+cols = ['checking_balance','credit_history', 'purpose', 'savings_balance', 'employment_length', 'personal_status', 
+        'other_debtors','property','installment_plan','housing','job','telephone','foreign_worker']
+
+col_dicts = {'checking_balance': {'1 - 200 DM': 2,
+  '< 0 DM': 1,
+  '> 200 DM': 3,
+  'unknown': 0},
+ 'credit_history': {'critical': 0,
+  'delayed': 2,
+  'fully repaid': 3,
+  'fully repaid this bank': 4,
+  'repaid': 1},
+ 'employment_length': {'0 - 1 yrs': 1,
+  '1 - 4 yrs': 2,
+  '4 - 7 yrs': 3,
+  '> 7 yrs': 4,
+  'unemployed': 0},
+ 'foreign_worker': {'no': 1, 'yes': 0},
+ 'housing': {'for free': 1, 'own': 0, 'rent': 2},
+ 'installment_plan': {'bank': 1, 'none': 0, 'stores': 2},
+ 'job': {'mangement self-employed': 3,
+  'skilled employee': 2,
+  'unemployed non-resident': 0,
+  'unskilled resident': 1},
+ 'other_debtors': {'co-applicant': 2, 'guarantor': 1, 'none': 0},
+ 'personal_status': {'divorced male': 2,
+  'female': 1,
+  'married male': 3,
+  'single male': 0},
+ 'property': {'building society savings': 1,
+  'other': 3,
+  'real estate': 0,
+  'unknown/none': 2},
+ 'purpose': {'business': 5,
+  'car (new)': 3,
+  'car (used)': 4,
+  'domestic appliances': 6,
+  'education': 1,
+  'furniture': 2,
+  'others': 8,
+  'radio/tv': 0,
+  'repairs': 7,
+  'retraining': 9},
+ 'savings_balance': {'101 - 500 DM': 2,
+  '501 - 1000 DM': 3,
+  '< 100 DM': 1,
+  '> 1000 DM': 4,
+  'unknown': 0},
+ 'telephone': {'none': 1, 'yes': 0}}
+
+for col in cols:
+    credit[col] = credit[col].map(col_dicts[col])
+    
+credit.head(10)
+```
+
+Now, we randomly select 70% of the data set as training data and 30% as test data.
+
+```{python}
+from sklearn.model_selection import train_test_split
+
+y = credit['default']
+X = credit.drop('default', axis=1)   
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+```
+
+Let's verify whether the proportion of default loans is close to the training set and the test set.
+
+```{python}
+print (y_train.value_counts()/len(y_train))
+print (y_test.value_counts()/len(y_test))
+```
+
+It can be seen that the proportion of default loans in training sets and test centres is close to 30%.
+
+### 3. Model training
+We will use the DecisionTreeClassifier algorithm in Scikit-learn to train the decision tree model. The DecisionTreeClassifier algorithm is located in the sklearn.tree package. First, import it, and then call the fit method for model training.
+
+```{python}
+from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
+credit_model = DecisionTreeClassifier(min_samples_leaf = 6)
+credit_model.fit(X_train, y_train)
+```
+
+Now, credit_model is the decision tree model we have trained. It can be displayed through visualisation.
+
+```{python}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(20, 10))
+tree.plot_tree(credit_model,
+               feature_names=X_train.columns,
+               class_names=['no default', 'default'],
+               filled=True,
+               rounded=True,
+               ax=ax)
+plt.show()  
+```
+
+### 4. Model performance evaluation
+In order to apply our trained decision tree model to the test data, we use the predict() function, and the code is as follows:
+
+```{python}
+credit_pred = credit_model.predict(X_test)
+```
+
+Now, we have obtained the prediction results of the decision tree model on the test data. The performance of the model can be evaluated by comparing the prediction results with the real results. You can use the classification_report() and confusion_matrix() functions in the sklearn.metrics package to show the model classification results:
+
+```{python}
+from sklearn import metrics
+print (metrics.classification_report(y_test, credit_pred))
+print (metrics.confusion_matrix(y_test, credit_pred))
+print (metrics.accuracy_score(y_test, credit_pred))
+```
+
+In the 300 loan application test data, the accuracy of the model is 70.7%. Of the 216 non-default loans, the model correctly predicted 81%. Among the 84 defaulted loans, the model correctly predicted 44%. Next, let's see if the performance of the model can be further improved.
+
+### 5.Model performance improvement
+In practical application, the prediction accuracy of the model is not high, and it is difficult to apply it to the real-time credit review process. In this case, if a model predicts all loans as "non-default", the correct rate of the model will be 72%, and the model is a completely useless model. The correct rate of the model we established in the last section is 70.7%, but the identification performance of defaulted loans is very poor. We can create a cost matrix to define the cost of different mistakes in the model. Assuming that we think that the loss caused to the bank by a loan defaulter is 4 times the loss caused by the bank to miss a non-default loan, the cost weight of non-default and default can be defined as:
+
+
+```{python}
+class_weights = {1:1, 2:4}
+credit_model_cost = DecisionTreeClassifier(max_depth=6,class_weight = class_weights)
+credit_model_cost.fit(X_train, y_train)
+credit_pred_cost = credit_model_cost.predict(X_test)
+
+print (metrics.classification_report(y_test, credit_pred_cost))
+print (metrics.confusion_matrix(y_test, credit_pred_cost))
+print (metrics.accuracy_score(y_test, credit_pred_cost))
+```
+
+It can be seen that the overall correctness rate of the model has dropped to 58%, but at this time, the model can correctly identify 72 of the 86 defaulted loans, with a recognition rate of 83%.
