@@ -1,0 +1,240 @@
+
+---
+title: "Using the K Nearest Neighbour Algorithm to Diagnose Breast Cancer"
+description: "A classification project"
+author:
+  - name: "Longxiang Wu"
+date: 2024-03-29
+output:
+  distill::distill_article:
+    self_contained: false
+---
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.19.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+```{r setup, include=FALSE}
+library(reticulate)
+use_python("/Users/Zhuanz/anaconda3/bin/python3.11", required = TRUE)
+# or use your conda environment
+use_condaenv("base", required = TRUE)
+```
+
+<!-- #region -->
+
+Breast cancer has become a major public health problem in the current society. The global incidence of breast cancer has been on the rise since the late 1970s. One of the eight women in the United States will have breast cancer in their lifetime. China is not a country with a high incidence of breast cancer, but it should not be optimistic. In recent years, the growth rate of the incidence of breast cancer in China is 1 to 2 percentage points higher than that of high-incidence countries. According to the 2009 breast cancer incidence data released by the National Cancer Centre and the Centre for Disease Control and Prevention of the Ministry of Health in 2012, the incidence of breast cancer ranks first among female malignant tumours in the national tumour registration areas. The total incidence of female breast cancer (rough rate) is 42.55/100,000 in the country, and 51 in cities. .91/100,000, 23.12/100,000 in rural areas.
+
+Early breast cancer detection mainly examines abnormal lumps in breast tissue. If a lump is found, a fine needle aspiration biopsy is needed, and then the cell is examined under the microscope to determine whether the lump is benign or malignant. If it can be modelled through machine learning and automatically diagnosed through the detection data of breast lumps, it will bring great benefits to the medical system. On the one hand, automatic diagnosis can greatly improve the efficiency of detection. On the other hand, the automatic diagnosis combined with a large number of different historical cases can assist doctors in making decisions and reduce the risk of misjudgement.
+
+In this case, based on the public breast cancer diagnosis data, we will use a simple algorithm in machine learning, the K nearest neighbour algorithm, to build an automatic diagnosis model for breast cancer.
+
+### 1.Data source
+We will use the breast cancer diagnostic data set from UCI. The detailed description of the data set can be found at the website: http://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28 Diagnostic%29. The breast cancer data includes 569 breast cell biopsy samples, each of which contains 32 variables. Among them, the id variable is the sample identification ID, and the diagnosis variable is the target variable (M stands for malignant and B stands for benign). The other 30 variables are composed of the mean, standard deviation and maximum values of 10 different characteristics of 10 digital nuclei. These 10 basic characteristics are:
+- radius 
+- texture 
+- perimeter 
+- area 
+- smoothness 
+- compactness （perimeter^2 / area - 1.0）
+- concavity 
+- concave points 
+- symmetry 
+- fractal dimension 
+
+### 2.Data exploration and preprocessing
+First, use the read_csv() function of pandas to import the breast cancer data set in CSV format into the data box.
+
+```{python}
+import pandas as pd
+breast_cancer = pd.read_csv("wisc_bc_data.csv")
+print (breast_cancer.shape)
+breast_cancer.head(10)
+```
+
+The first variable is the ID variable, which cannot provide useful information for the actual model construction, so it needs to be deleted.
+
+```{python}
+del breast_cancer["id"]
+```
+
+The diagnosis variable is our target variable. Let's first count its value distribution. Observe the distribution of malignant (M) and benign samples (B) in our data set. You can use the value_counts() of Series in pandas to output the number and proportion of different categories of samples respectively. The diagnosis variable is in string format, and it needs to be encoded as an integer before the formal modelling, encoding benign (B) to 0 and malignant (M) to 1.
+
+```{python}
+print (breast_cancer.diagnosis.value_counts())
+print (breast_cancer.diagnosis.value_counts()/len(breast_cancer))
+
+dignosis_dict = {"B":0,"M":1}
+breast_cancer["diagnosis"] = breast_cancer["diagnosis"].map(dignosis_dict)
+```
+
+It can be seen that among our 569 samples, there are 357 and 212 benign samples and 21 malignant samples respectively, accounting for 62.7% and 37.3% respectively. As an example, we observe three of the 30 independent variables in detail: radius_mean, area_mean and smoothness_mean.
+
+```{python}
+breast_cancer[["radius_mean", "area_mean","smoothness_mean"]].describe()
+```
+
+Observing the statistical information of these three variables, it is found that their value range is not very consistent. The value range of radius_mean is 6.981~28.110, the value range of area_mean is 143.5~2501.0, and the value range of smoothness_mean is 0.05263~0.16340. Inconsistent measurement scales of different variables will affect the sample distance calculation in the K nearest neighbour algorithm. For example, if the above three variables are directly involved in the distance calculation, the area_mean variable will have the greatest impact on the distance calculation, which will cause the classification model we build to rely too much on the area_mean variable. Before applying algorithms involving distance calculation such as K nearest neighbour to build a prediction model, we need to standardise the value of variables. Common standardisation methods include min-max standardisation and Z-score standardisation. In this case, we will use the min-max standardisation method to adjust the value of our independent variable to a standard range.
+
+#### 2.1 Data standardisation
+In order to standardise the independent variables min-max, we need to implement a min_max_normalise() function. The function input is a numerical vector x. For each value in x, subtract the minimum value of x, and then divide it by the value range of the value in x. The specific implementation code is as follows:
+
+```{python}
+def min_max_normalize(x):
+    return (x - x.min())/(x.max() - x.min())
+```
+
+Now, we can standardise the data set with the implemented min_max_normalise() function.
+
+```{python}
+for col in breast_cancer.columns[1:31]:
+    breast_cancer[col] = min_max_normalize(breast_cancer[col])
+```
+
+```{python}
+breast_cancer.iloc[:,1:].describe()
+```
+
+It can be seen that 30 independent variables have been correctly standardised between 0 and 1.
+
+#### 2.2 Divide the training set and the test set
+
+In practical application, the best way to test the model is to apply the model to future data. Due to the lack of such future data, we adopt a simulation method: divide our data set into two parts: the training set and the test set. The training set is used to build a model, while the test set cannot be used in model construction. It is only used to evaluate the performance of the model. In this case, we use 70% (398 samples) of the data to train the model, and 30% (171 samples) to test the model.
+
+
+
+```{python}
+from sklearn.model_selection import train_test_split
+
+y = breast_cancer['diagnosis']
+X = breast_cancer.drop('diagnosis', axis=1)   
+
+breast_cancer_minmax_train, breast_cancer_minmax_test, \
+breast_cancer_train_labels, breast_cancer_test_labels \
+= train_test_split(X, y, test_size=0.3, random_state=0)
+```
+
+Through the value_counts() function, we can compare whether the distribution of malignant samples and benign samples is close to the training set and the test set:
+
+```{python}
+print (breast_cancer_train_labels.value_counts()/len(breast_cancer_train_labels))
+print (breast_cancer_test_labels.value_counts()/len(breast_cancer_test_labels))
+```
+
+It can be seen that the distribution of samples of different categories in the training set and the test set tends to be consistent. Now, we can start to build a diagnostic model of breast cancer.
+
+### 3.Model training
+
+For the K nearest neighbour algorithm, the model training stage actually does not include model establishment, and only the training data and its tags need to be stored. In order to use training data for classification, we use the K-neighbour algorithm of the sklearn.neighbors package to implement the KNeighborsClassifier class. For each sample in the test set, a specific distance calculation method will be used to find k nearest neighbours, of which k is a parameter that can be specified. Then, vote through the class labels of these k nearest neighbour samples, so as to classify the test samples. If the number of votes for different classes is equal, the test samples will be randomly classified. Of course, in order to avoid the occurrence of the same number of votes in different classes, k is usually set to an odd number for binary classification problems.
+
+sklern.neighbors.KNeighborsClassifier class has several main parameters, which mean as follows:
+
+- n_neighbours: k
+
+- weights: k nearest neighbour voting weight calculation method
+
+- metric: distance calculation method
+
+For detailed values and setting methods of each parameter, please refer to the website: http://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html
+
+Next, we set k to 21 and use the K nearest neighbour algorithm to predict the test data. The prediction results are saved in the breast_cancer_test_pred vector.
+
+
+```{python}
+from sklearn.neighbors import KNeighborsClassifier
+knn_model = KNeighborsClassifier(n_neighbors = 21)
+knn_model.fit(breast_cancer_minmax_train, breast_cancer_train_labels)
+
+breast_cancer_test_pred = knn_model.predict(breast_cancer_minmax_test)
+```
+
+### 4.Model performance evaluation
+By comparing the prediction results of the K nearest neighbour model we built on the test data breast_cancer_test_pred and the real class labels of the test sample, we can evaluate the application effect of the breast cancer diagnosis model we have built. We use the correlation functions in the sklern.metrics package to calculate the evaluation results.
+
+
+```{python}
+from sklearn import metrics
+print (metrics.classification_report(breast_cancer_test_labels, breast_cancer_test_pred))
+print (metrics.confusion_matrix(breast_cancer_test_labels, breast_cancer_test_pred))
+print (metrics.accuracy_score(breast_cancer_test_labels, breast_cancer_test_pred))
+```
+
+It can be seen that for 108 benign samples, the model correctly predicted 106, and only 2 samples failed to predict. For 63 malignant samples, 56 of the model predicted correctly, and the correct prediction rate was 88.9%. The overall prediction accuracy rate of the model is (106 + 56)/ 171 = 94.7%. Although the correct rate seems to be high, there are still 7 false positive samples, which is a serious mistake in the actual medical diagnosis, because the diagnosis of a patient with breast cancer as benign will bring serious consequences to the patient. In the next step, we need to further find ways to improve the effect of the model.
+
+### 5.Model performance improvement
+For the K nearest neighbour algorithm, the different value selection of K will affect the effect of the model. In addition, different data standardisation methods will also affect the effect of the model. In this section, we will explore whether the change of K value and the change of data standardisation method can improve the prediction results of the model.
+
+#### 5.1 Test the impact of different k values on the model effect
+We will test the effect of the model when k = 1, 5, 9, 11, 15, 21, 27 respectively. Because the overall prediction accuracy of the model is already very high. We compare the effects of models under different k values by observing the number and accuracy of False Negative and False Positive.
+
+
+```{python}
+k_list = (1,5,9,11,15,21,27)
+for k in k_list:
+    knn_model = KNeighborsClassifier(n_neighbors = k)
+    knn_model.fit(breast_cancer_minmax_train, breast_cancer_train_labels)
+
+    breast_cancer_test_pred = knn_model.predict(breast_cancer_minmax_test)
+    accuracy = metrics.accuracy_score(breast_cancer_test_labels, breast_cancer_test_pred)
+    confusion_mat = metrics.confusion_matrix(breast_cancer_test_labels, breast_cancer_test_pred)
+    
+    print ("k = ",k)
+    print ("\tCorrectness rate: ", '%.2f'%(accuracy*100) + "%")
+    print ("\tFalse negative：",confusion_mat[0,1])
+    print ("","\tFalse positive：",confusion_mat[1,0])
+```
+
+It can be seen that when k = 5, the number of false positives is the smallest, and the number of false negatives is only 1, and the correct rate is the highest. Of course, this is only the result of 171 test samples.
+
+#### 5.2 Adopt the Z-score standardisation method
+In the process of building a model with the above K nearest neighbour algorithm, we use the min-max method to standardise the data. Now, let's try the Z-score standardisation method to explore which can improve the predictive performance of our breast cancer diagnostic model. The scale() function in the sklearn.preprocessing package can be used to standardise the data with Z-score.
+
+
+```{python}
+from sklearn import preprocessing
+breast_cancer_zscore = pd.DataFrame(preprocessing.scale(breast_cancer),\
+                                   columns = breast_cancer.columns)
+breast_cancer_zscore.head(5)
+```
+
+After Z-score standardisation, the mean value of the variable is 0 and the standard deviation is 1. Taking the area_mean variable as an example, we conduct statistics on the results after our standardisation to test whether the standardisation is correct.
+
+```{python}
+print (breast_cancer_zscore.area_mean.mean())
+print (breast_cancer_zscore.area_mean.std())
+```
+
+It can be seen that the mean value after standardisation is close to 0, and the standard deviation is 1. Now, we can train the model and test the performance of the model.
+
+```{python}
+from sklearn.model_selection import train_test_split
+
+breast_cancer_zscore_train, breast_cancer_zscore_test, \
+breast_cancer_train_labels, breast_cancer_test_labels \
+= train_test_split(breast_cancer_zscore, y, test_size=0.3, random_state=0)
+
+# Model training
+knn_model_z = KNeighborsClassifier(n_neighbors=5)
+knn_model_z.fit(breast_cancer_zscore_train, breast_cancer_train_labels)
+
+# Model prediction
+breast_cancer_test_pred_z = knn_model_z.predict(breast_cancer_zscore_test)
+
+# Performance evaluation
+accuracy_z = metrics.accuracy_score(breast_cancer_test_labels, breast_cancer_test_pred_z)
+confusion_mat_z = metrics.confusion_matrix(breast_cancer_test_labels, breast_cancer_test_pred_z)
+
+print("k = 5")
+print("\tCorrectness rate: ", '%.2f'%(accuracy_z*100) + "%")
+print("\tFalse negative：", confusion_mat_z[0,1])
+print(" \tFalse positive：", confusion_mat_z[1,0])
+```
