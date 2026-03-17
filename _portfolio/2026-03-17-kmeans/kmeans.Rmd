@@ -1,0 +1,250 @@
+---
+title: "Using K-Means Clustering to Segment the Youth Market"
+description: "A clustering project"
+author:
+  - name: "Longxiang Wu"
+date: 2024-06-20
+output:
+  distill::distill_article:
+    self_contained: false
+preview: kmeans.png
+---
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.19.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+```{r setup, include=FALSE}
+library(reticulate)
+use_python("/Users/Zhuanz/anaconda3/bin/python3.11", required = TRUE)
+# or use your conda environment
+use_condaenv("base", required = TRUE)
+```
+
+<!-- #region -->
+
+
+Market segmentation refers to the market classification process in which marketers divide the market of a product into several consumer groups through market research according to the differences in consumers' needs and desires, purchasing behaviour and purchasing habits. Each consumer group is a sub-market, and each sub-market is a group of consumers with similar demand tendencies. Market segmentation can play an extremely important role in the production and marketing of enterprises:
+
+- It is conducive to selecting target markets and formulating marketing strategies.
+
+- It is conducive to exploring market opportunities and developing new markets.
+
+- It is conducive to concentrating human and material resources to the target market.
+
+- It is beneficial for enterprises to improve economic efficiency.
+
+With the popularity of social networking platforms such as Facebook and Twitter, more and more teenage users will post messages on these platforms. These text data can reflect the behaviour, hobbies and interests of teenagers. Combined with the gender, age, number of friends and other information of users on the social network platform, it is of great value for exploring the sub-market of teenagers.
+
+The sub-market is all consumers with similar demand tendencies, and clustering algorithms are very suitable for accomplishing this task. In this case, we will use a data set extracted from the social network platform to describe the basic information and hobbies of teenagers, and use the K-Means clustering algorithm to segment the youth market.
+
+### 1 Data source
+
+We use a data set of social network information for American high school students containing 30,000 samples. The data was evenly sampled from 2006 to 2009, and the corresponding high school grades are the first, second, third and fourth grades of high school. Each sample contains 40 variables, of which the four variables gradyear, gender, age and friends represent the basic information of high school students' graduation year, gender, age and number of friends. The remaining 36 variables represent 36 words, which represent the five major interests of high school students: extracurricular activities, fashion, religion, romance and antisocial behaviour. The value of each word variable represents the frequency of occurrence of the corresponding word in the message released by the social network service platform of high school students. The list of 36 words is as follows:
+
+- basketball 
+- football
+- soccer
+- softball
+- volleyball 
+- swimming
+- cheerleading
+- baseball
+- tennis
+- sports
+- cute
+- sex
+- sexy
+- hot
+- kissed
+- dance
+- band
+- marching
+- music
+- rock
+- god
+- church
+- jesus
+- bible
+- hair
+- dress
+- blonde
+- mall
+- shopping
+- clothes
+- hollister （hollister brand）
+- abercrombie (abercrombie brand)
+- die
+- deat 
+- drunk
+- drugs
+
+### 2 Data explore and preprocessing
+First, use the read_csv() function in pandas to load the data into the data box:
+
+```{python}
+import pandas as pd
+teenager_sns = pd.read_csv("teenager_sns.csv")
+teenager_sns.head(10)
+```
+
+Through observation, it was found that there was a missing value in the gender and age variables. Many machine learning models cannot directly process data with missing values, such as the K-Means clustering algorithm we are going to use. Therefore, before formally constructing the model, it is necessary to deal with the missing values: delete them or fill them in some way. Before processing the missing values, we first count the number of samples with missing values in the two variables gender and age respectively. For gender variables, we use the value_counts() function of pandas.Series to complete this analysis. Note that the value_counts() function does not count missing values by default, and needs to dropna The parameter is set to False. For the continuous variable age, the count() function can be used to count the number of non-missing values, so that the number of missing values can be calculated. The describe() function can be used to perform descriptive statistics on age variables.
+
+```{python}
+teenager_sns["gender"].value_counts(dropna = False)
+```
+
+```{python}
+print ('age变量缺失值数目：', len(teenager_sns["age"]) - teenager_sns["age"].count())
+teenager_sns["age"].describe()
+```
+
+It can be seen that among 30,000 samples, 2,724 samples (about 9%) lack gender data, and 5,086 samples (about 17%) lack age data. Further observation of the descriptive statistics of age variables found that the minimum value of age is 3.086 and the maximum value is 106.9. Because our sample is a teenage sample, the minimum and maximum values seem to be unrelivable, because in reality, it is unlikely that a 3-year-old or 106-year-old person will attend high school. This kind of abnormal data often affects the final modelling analysis results, so abnormal value processing is required. The reasonable age range for high school students is 13~20 years old, so for our data set, if the age is beyond 13~20 years old, we will mark it as an empty value NaN. We use the map() function of pandas.Series to complete this processing:
+
+```{python}
+import numpy as np
+
+def tag_nan(value):
+    if (value >= 13) & (value < 20):
+        return value
+    else:
+        return np.NaN
+
+teenager_sns["age"]  = teenager_sns["age"].map(tag_nan)
+
+teenager_sns["age"].describe()
+```
+
+Now, the processing of the abnormal value has been completed, but more missing values have been introduced. The next step is to deal with the missing values.
+
+### 2.1 Process the missing values of classified variables through virtual coding
+For missing values in samples, one of the easiest ways is to delete samples with missing values. However, directly deleting missing values will reduce our data, especially there are 40 variables in our data, and only two variables have missing values. There are not many missing values in the data, but if we delete them directly, we will lose a lot of useable data.
+
+For a classification variable such as gender, if the sample with missing values is obviously different from other samples, we can add a separate classification "unkown" to the gender variable. The empty value can be replaced with "unkown" by the replace() function.
+
+```{python}
+teenager_sns["gender"] = teenager_sns["gender"].replace(np.NaN, "unkown")
+teenager_sns["gender"].value_counts()
+```
+
+Since the K-Means cluster algorithm needs to calculate the distance between samples, we also need to virtually encode the classified variables (also become OneHot coding). Virtual coding converts a classified variable with K values into K binary variables. Our gender variables now have three values: "M", "F" and "unkown", which we can convert into three variables: gender_M, gender_F and gender_unkown. The values of these three variables are 0 and 1, which represent whether a high school student is a certain gender type. For a sample, only one variable can be valued 1 and the other variables can be 0 under these three variables at the same time. The pandas package provides a very convenient function to help us complete virtual coding:
+
+```{python}
+gender_dummies = pd.get_dummies(teenager_sns["gender"], prefix="gender")
+gender_dummies.head(10)
+```
+
+It can be seen that we have correctly completed the virtual coding, and the gender variable has been converted into 3 binary variables gender_F, gender_M and gender_unown. Now, merge the above virtual coding results into the data set teenager_sns. We use pandas' concat() function to horizontally splice the two data boxes of teenager_sns and gender_dummies.
+
+```{python}
+teenager_sns = pd.concat([teenager_sns, gender_dummies], axis = 1)
+teenager_sns.head(10)
+```
+
+### 2.2 Use the fill-in method to process the missing values of numerical variables
+For the missing value of the numerical variable such as age, we can use a special value to fill the missing value (imputation). Commonly used filling values include given value, mean, median, etc. In the case, we use the most representative mean filling method. Therefore, we need to calculate the mean value of the age variable first. The mean() function in R can be used to calculate the mean value, but it should be noted that mean() cannot calculate the mean value of data containing missing values by default. We need to pass an additional parameter na.rm to the mean() function and set its value to TRUE.
+
+```{python}
+age_mean = teenager_sns["age"].mean()
+age_mean
+```
+
+Now, we use the fillna() function of pandas.Series to fill in the missing value of the age variable with the above mean:
+
+```{python}
+teenager_sns["age_avg_imputated"] = teenager_sns["age"].fillna(value = age_mean)
+teenager_sns.head(10)
+```
+
+Observing the "age" variable and the "age_avg_imputated" variable in line 6 of the above table, it is found that the missing age value of the sample has been correctly filled with the mean value of 17.2523.
+
+### 2.3 Data standardisation
+Because the K-means cluster algorithm needs to calculate the distance of the sample, we need to standardise the data before building the model. Commonly used standardisation methods include min-max standardisation and z-score standardisation. In this example, we directly adopt the z-score standardisation method.
+
+
+```{python}
+from sklearn import preprocessing
+filtered_columns = ["gradyear","friends","basketball",
+                     "football","soccer","softball","volleyball","swimming",
+                     "cheerleading","baseball","tennis","sports","cute","sex",
+                     "sexy","hot","kissed","dance","band","marching","music",
+                     "rock","god","church",
+                      "jesus","bible","hair","dress","blonde","mall","shopping","clothes",
+                     "hollister","abercrombie","die","death","drunk","drugs",
+                     "gender_M","gender_F","gender_unkown","age_avg_imputated"]
+
+teenager_sns_zscore = pd.DataFrame(preprocessing.scale(teenager_sns[filtered_columns]),\
+                                   columns = teenager_sns[filtered_columns].columns)
+teenager_sns_zscore.head(5)
+```
+
+### 3 Model training
+In order to segment our youth data into the market, we use the KMeans class in the sklearn.cluster package. The n_clusters parameter of KMeans is the number of clusters. In this case, we set the number of sub-market n_clusters to 5.
+
+```{python}
+from sklearn.cluster import KMeans
+teenager_cluster_model = KMeans(n_clusters = 5)
+teenager_cluster_model.fit(teenager_sns_zscore)
+```
+
+### 4 Cluster result analysis
+
+The quantitative performance evaluation indicators of cluster results include mutual information, homogeneity and completeness, but these indicators do not indicate whether the cluster results meet our expected analysis goals. In this case, our analysis goal is to determine the classification of teenagers with similar characteristics and hobbies, so as to achieve the purpose of differentiated marketing to different types of teenagers. Therefore, to a large extent, what we need is not the quantitative evaluation index results, but the qualitative analysis of the clustering results. First of all, let's observe the number of samples in each class from our K-Means cluster.
+
+```{python}
+teenager_clusters = pd.Series(teenager_cluster_model.labels_)
+teenager_clusters.value_counts().sort_index()
+```
+
+Among the five categories in our cluster, there are 16,628 teenagers in the largest category and 1,042 teenagers in the smallest category. It should be noted that because K-Means clustering will randomly select the initial cluster centre, the results of each run may be different. In order to better understand the characteristics of the adolescent group represented by each class, we observe the cluster centre of each class. The results of the cluster centre are saved in the centres attribute of teenager_cluster_model.
+
+```{python}
+centers = pd.DataFrame(teenager_cluster_model.cluster_centers_, \
+                       columns = teenager_sns_zscore.columns)
+centers
+```
+
+Because the data has been standardised using the Z-score method, we can directly analyse the meaning of each cluster centre by observing the value of the cluster centre on each variable. If the value of the cluster centre is greater than 0 in a variable, it means that the group represented by the cluster is greater than the group average in that variable. First, transposition the above cluster result data box, and then sort the variable values of each cluster centre from large to small. Analyse the groups represented by the cluster by observing the first 10 variables of each cluster:
+
+```{python}
+centers_t = centers.T
+centers_t.columns = ["cluster_0","cluster_1","cluster_2","cluster_3","cluster_4"]
+centers_t["cluster_0"].sort_values(ascending=False).head(10)
+
+#sort(centers_t[,1],decreasing = TRUE)[1:10]
+```
+
+The youth group represented by the first cluster is characterised by: sports and shopping, sports, and most of them are girls.
+
+```{python}
+centers_t["cluster_1"].sort_values(ascending=False).head(10)
+```
+
+The gender of the second cluster is unknown, and most of the variables are negative. This population may correspond to the group with incomplete information on social network platforms and rarely publish content.
+
+```{python}
+centers_t["cluster_2"].sort_values(ascending=False).head(10)
+```
+
+The characteristics of the adolescent group represented by the third cluster are: romance, love music and alcoholism.
+
+```{python}
+centers_t["cluster_3"].sort_values(ascending=False).head(10)
+```
+
+The characteristics of the adolescent group represented by the fourth cluster are: senior boys who like sports.
+
+```{python}
+centers_t["cluster_4"].sort_values(ascending=False).head(10)
+```
+
+The teenagers represented by the fifth cluster are seniors and like shopping, most of which are girls.
