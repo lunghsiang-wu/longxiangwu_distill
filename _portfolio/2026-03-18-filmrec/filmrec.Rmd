@@ -1,0 +1,416 @@
+---
+title: "Film Recommendation"
+description: "A association rule mining project"
+author:
+  - name: "Longxiang Wu"
+date: 2024-09-01
+output:
+  distill::distill_article:
+    self_contained: false
+preview: film.jpg
+---
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.19.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+```{r setup, include=FALSE}
+library(reticulate)
+use_python("/Users/Zhuanz/anaconda3/bin/python3.11", required = TRUE)
+# or use your conda environment
+use_condaenv("base", required = TRUE)
+```
+
+<!-- #region -->
+
+
+In this case, we look for potential association rules according to the association rule algorithm introduced in the textbook. The APRIOR algorithm is a basic algorithm for discovering frequent sets. Next, we will use Python language to implement the process of APRIOR in detail, and use the movie data set to find out the related rules we are interested in.
+
+In the process of writing the specific algorithm, we use a simple toy data set Data to verify the correctness of the algorithm.
+
+### 1 Realisation of APRIOR algorithm
+According to the steps of the APRIOR algorithm, create a candidate C1 set, and thus create a frequent L1 set.
+
+```{python}
+Data = {'user1':['I1','I2','I5'],
+        'user2':['I2','I4'],
+        'user3':['I2','I3'],
+        'user4':['I1','I2','I4'],
+        'user5':['I1','I3'],
+        'user6':['I2','I3'],
+        'user7':['I1','I3'],
+        'user8':['I1','I2','I3','I5'],
+        'user9':['I1','I2','I3']
+        }
+```
+
+We first transform the data and use the frozenset type to store data records.
+
+In Python, the collection type set is variable and there is no hash value. And frozen set is a frozen set type, which is immutable and has a hash value. Therefore, frequent items stored using the frozenset type can be saved as the key of the dictionary, which is conducive to the subsequent creation of frequent item set collections (key is frequent items, and value is support). For more data types such as OrderedDict, namedtuple, etc., you can refer to Python's collection module.
+
+```{python}
+data = {v: frozenset(Data[v]) for v in Data}
+data
+```
+
+### 1.1 Generate frequent 1 set
+Since the length of the frequent term is 1, we can directly generate the set of frequent 1 item by counting the frequency of each element in the data. The item set is stored using the dictionary type in Python. Key represents frequent items, and value indicates the corresponding support. The minimum support is 2.
+
+```{python}
+freq_1 = {}
+for item in data:
+    for record in data[item]:
+        if frozenset([record]) in freq_1:
+            freq_1[frozenset([record])] += 1
+        else:
+            freq_1[frozenset([record])]  = 1
+
+freq_1 = {v:freq_1[v] for v in freq_1 if freq_1[v] >= 2}
+```
+
+```{python}
+freq_1
+```
+
+### Generate frequent k-item sets
+Starting from k>=2, generate a set of frequent k items according to the set of frequent (k−1) items obtained. This process is responsible for the function getFrequentItemSetWithSupport(), which returns k frequent item sets. Specifically, it is divided into three steps:
+
+- Connection Step Generation Candidate Set Ck
+
+- Pruning steps generate frequent k-item sets
+
+- Select the frequent items that meet the setting conditions (meet the minimum support) to generate the final result.
+
+In the connection step, we will frequently (k−1) item sets with ourselves to generate k candidate sets candidate_items.
+
+In the pruning step, we use a priori properties to filter the candidate set and reduce the amount of operations. This nature is:
+
+All non-empty subsets of the frequent term set must be the frequent term set.
+
+```{python}
+# When k >= 2
+def getFrequentItemSetWithSupport(frequent_k, min_support, k, item_list):
+    
+    items = frequent_k.keys()
+    
+    # K-item candidate collection
+    candidate_items = []
+    
+    current_k = {}
+
+    ### Connect steps to generate a candidate set
+    candidate_items = [m.union(n) for m in items for n in items if m != n and len(m.union(n)) == k]
+ 
+    ### Pruning step
+    final_candidate = set()
+    for candidate in candidate_items:
+        
+        sub_items = getSubset(candidate, (k - 1))
+    
+        if any([item < candidate for item in sub_items]):  
+            final_candidate.add(candidate)
+        else:
+            continue
+              
+    # Traverse dataset
+    for record in item_list.items():   # ← modified here
+        for item in final_candidate:
+            
+            if item.issubset(record[1]):     
+                
+                if item in current_k:
+                    current_k[item] += 1                
+                else:
+                    current_k[item] = 1
+    
+    return {v: current_k[v] for v in current_k if current_k[v] >= min_support}
+```
+
+In the function `getFrequentItemSetWithSupport`, we customise two functions `getSubset` and `getAllSubets`, and return the k subset of the item set and all non-empty subsets respectively.
+
+For example, the term set frozenset({'I1', 'I2', 'I5'}), its 2 subsets should be:
+
+`frozenset({'I1', 'I2'})`
+
+`frozenset({'I1', 'I5'})`
+
+`frozenset({'I2', 'I5'})`
+
+Then, we use the following code to realise the above functions.
+
+```{python}
+def getSubset(item, k):
+    
+    import itertools as its
+    return [frozenset(item) for item in its.combinations(item, k)]
+```
+
+```{python}
+example1 = frozenset({'I1', 'I2', 'I5'})
+getSubset(example1, 2)
+```
+
+Of course, we find all its non-empty real subsets through the `getAllSubsets()` function:
+`frozenset({'I1', 'I2'})`
+`frozenset({'I1', 'I5'})`
+`frozenset({'I2', 'I5'})`
+`frozenset({'I1'})`
+`frozenset({'I2'})`
+`frozenset({'I5'})`
+
+```{python}
+def getAllSubsets(item):
+    
+    subsets = []
+    
+    for i in range(len(item) - 1):
+    
+        subsets.extend(getSubset(item, i + 1))
+                       
+    return subsets
+```
+
+```{python}
+getAllSubsets(example1)
+```
+
+The subset of the item set can be obtained by arranging and combining. We can call the `combinations` function in `itertools` to specifically realise the function of returning the subset.
+
+At this point, repeatedly call `getFrequentItemSetWithSuppot()` to obtain a complete set of frequent k items until the stop condition is reached, and the set of frequent k items is empty.
+
+When the length of the data record is long, the algorithm needs to check whether the frequent k item set is empty one by one; in addition, the length of the frequent item we look for in the specific task will not be too long, so
+
+We choose to obtain the specified frequent k set set by controlling the value of k.
+
+```{python}
+k = 2
+final_itemsets= []
+final_itemsets.append(freq_1)
+min_support = 2
+min_conf = 0.6
+
+frequent_k_minus_1 = freq_1
+# 
+#while frequent_k != {}:
+while k <= 3:
+    print (frequent_k_minus_1)
+    print ("")
+    frequent_k = getFrequentItemSetWithSupport(frequent_k_minus_1, min_support, k, data)
+    final_itemsets.append(frequent_k)
+    frequent_k_minus_1 = frequent_k
+    k += 1
+```
+
+```{python}
+final_itemsets
+```
+
+### 1.3 Generate association rules
+After generating the set of frequent items, we can directly obtain the strong association rules that satisfy both the minimum support and the minimum confidence. For example, for the frequent set `{'A','B'}`, the confidence of the associated rule A→B is as follows:
+
+conf(A→B)=support(A,B)support(A)
+
+The main steps to generate association rules are as follows:
+
+- For each element `value` in the set of frequent k items, call the `getAllSubsets()` function to obtain all non-empty subsets of value.
+
+For each element `condition` in the non-empty subset, find all the remaining elements except the `condition` `conclusion_items`
+
+Calculate `confidence` according to the confidence formula
+
+Put all the potential association rules `[[condition, conclusoin_items], confidence]` that meet the conditions (greater than `min_conf`) into the `association_rules`
+
+
+```{python}
+association_rules = []
+
+for item_set in final_itemsets[1:]:
+    
+    for value in item_set:
+        print('frequent item set: ', value)
+        
+        # 形如 if condition, then conclusion
+        for condition in getAllSubsets(value):
+            print('    condition: ', condition)
+            
+            conclusion_items = frozenset(x for x in value if x not in condition)
+            print('    conclusion: ', conclusion_items)
+            
+            if len(conclusion_items) > 0:
+                    
+                confidence = float(final_itemsets[len(value) - 1][value]) / final_itemsets[len(condition) - 1][condition]
+                print(confidence)
+                
+                if confidence > min_conf:
+                    association_rules.append([[condition, conclusion_items], confidence])
+                
+                print('')
+```
+
+```{python}
+association_rules
+```
+
+### 2 Related rule mining of movie data set
+In the first part of the case, we implemented the `APRIOR` algorithm and used a simple data set for verification. Next, we mined the association rules on the actual data set.
+
+### 2.1 Data set preprocessing
+Use the `read_csv` function of the `Pandas` library to import the data set `ratings.csv`.
+
+```{python}
+import pandas as pd
+```
+
+```{python}
+ratings = pd.read_csv("dataset/ratings.csv")
+ratings.head()
+```
+
+In order to facilitate the recommendation of movies, we only pay attention to the movie information with a score of more than 3, and we need to summarise the movie rating information of users.
+
+```{python}
+ratings_by_user = {}
+
+# Keep the data record of the movie score greater than 3
+pos_ratings = ratings[ratings['rating'] > 3]
+```
+
+```{python}
+pos_ratings.head()
+```
+
+Using the groupby function, you can find the movie ID information for each user to rate from pos_ratings. The storage format of ratings_by_user is as follows:
+{userId1:{movieId1,movieID2},userId2:{movieId1,movieId2}...}
+
+```{python}
+for index, item in pos_ratings.groupby('userId')['movieId']:
+        
+    if index in ratings_by_user:
+        ratings_by_user[index].add(frozenset(item.values))
+    else:
+        ratings_by_user[index] = frozenset(item.values)
+```
+
+From the perspective of the film itself, we can count the number of times each movie has been commented by users. Here, we set the minimum support min_support=50
+
+```{python}
+# Count the number of comments
+movie_stats = pos_ratings.groupby('movieId')['userId'].count()
+movie_freq_dict = dict(movie_stats[movie_stats > 50])
+```
+
+```{python}
+movie_freq_dict
+```
+
+### 2.2 Generate frequent 1 set
+Generate frequent 1 set frequent1 according to `movie_freq_dict`.
+
+```{python}
+frequent_1 = {frozenset([item]): movie_freq_dict[item] for item in movie_freq_dict} 
+```
+
+### 2.3 Generate frequent k-item sets
+Same as the first part, we still set k<=3
+
+```{python}
+k = 2
+final_itemsets= []
+final_itemsets.append(frequent_1)
+min_support = 50
+min_conf = 0.6
+
+frequent_k_minus_1 = frequent_1
+ 
+#while frequent_k != {}:
+while k <= 3:
+    print ('begin to search ' + str(k) + ' frequent item set')
+    print ("")
+    frequent_k = getFrequentItemSetWithSupport(frequent_k_minus_1, min_support, k, ratings_by_user)
+    final_itemsets.append(frequent_k)
+    frequent_k_minus_1 = frequent_k
+    k += 1
+```
+
+`final_itemsets` stores all frequent sets that meet the setting conditions. The following code shows the set of 3 frequent sets.
+
+```{python}
+# View the collection of frequent 3-item sets
+final_itemsets[2]
+```
+
+### 2.3 Generate association rules
+We extract related rules from the frequent item centre, that is, the conclusion is that "if the user has seen movie A, he will also watch movie B". Next, generate association rules (including conditions and conclusions) for each set of frequent items, and calculate the corresponding confidence.
+
+
+```{python}
+association_rules = []
+min_conf = 0.5
+
+for item_set in final_itemsets[1:]:
+    
+    for value in item_set:
+        #print 'frequent item set: ', value
+        for condition in getAllSubsets(value):
+            #print ' condition: ', condition
+            conclusion_items = frozenset(x for x in value if x not in condition)
+            #print ' conclusion_items: ', conclusion_items
+            
+            if len(conclusion_items) > 0:
+                    
+                confidence = float(final_itemsets[len(value) - 1][value])/final_itemsets[len(condition) - 1][condition]
+                #print confidence
+                if confidence > min_conf:
+                        
+                    association_rules.append([[condition, conclusion_items],
+                                           confidence])
+```
+
+Due to the large number of associated rules generated, in order to facilitate display, we only output the first 200 associated rules.
+
+```{python}
+association_rules[:200]
+```
+
+### 2.4 Associated rule conversion
+`movies.csv` stores movie information. Through `movieId`, we can get the specific information of the movie and replace the movie ID in the associated rules with the movie name.
+
+```{python}
+movie_names  = pd.read_csv('dataset/movies.csv')
+movie_names.head()
+```
+
+```{python}
+movie_names.dtypes
+```
+
+```{python}
+movie_names = pd.read_csv('dataset/movies.csv')
+movie_rules = []
+
+for rule in association_rules:
+    
+    #  Confirm the movie ID information
+    conditions = rule[0][0]
+    conclusions = rule[0][1]
+    
+    # Switch
+    condition_names = [movie_names[movie_names['movieId'] == int(item)]['title'].values[0] for item in conditions]
+    conclusion_names = [movie_names[movie_names['movieId'] == int(item)]['title'].values[0] for item in conclusions]
+    
+    movie_rules.append([condition_names, conclusion_names, rule[1]])
+```
+
+```{python}
+movie_rules[:200]
+```
+
