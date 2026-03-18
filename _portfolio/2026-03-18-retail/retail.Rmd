@@ -1,0 +1,461 @@
+---
+title: "Association Rule Mining in Retail Shopping Records"
+description: "An association rule mining project"
+author:
+  - name: "Longxiang Wu"
+date: 2024-10-30
+output:
+  distill::distill_article:
+    self_contained: false
+preview: association.png
+---
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.2'
+      jupytext_version: 1.19.1
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+```{r setup, include=FALSE}
+library(reticulate)
+use_python("/Users/Zhuanz/anaconda3/bin/python3.11", required = TRUE)
+# or use your conda environment
+use_condaenv("base", required = TRUE)
+```
+
+<!-- #region -->
+
+### Version package information
+
+
+```{python}
+# !pip freeze | grep pandas
+# !pip freeze | grep numpy
+```
+
+```{python}
+import pandas as pd
+import numpy as np
+```
+
+### Data preprocessing
+Since the data set file is stored as a `txt` file, we choose the `read_table()` function in `Pandas` to read the data.
+
+```{python}
+data = pd.read_table('dataset/shopping-record.txt', header=None)
+data.head()
+```
+
+As a result, although the items recorded in each row of data are separated by commas, the data set does not have a strict format specification. The number of items contained in each row of data records is not the same, and a unified separator cannot be specified in the read function. Therefore, we choose to use Python's standard function to read it directly and store the data set in the form of a nested list.
+
+```{python}
+# Data conversion
+
+data = []
+with open('dataset/shopping-record.txt') as f:
+    for line in f.readlines():
+        # Remove all kinds of symbols
+        line = line.strip()
+        #Remove the blank line
+        if line:
+            row_list = line.split(',')
+            data.append(row_list)
+```
+
+```{python}
+data
+```
+
+The data set has a total of 9,835 data records.
+
+```{python}
+len(data)
+```
+
+### APRIOR Algorithm
+#### Generate frequent 1 set
+
+```{python}
+from collections import defaultdict
+```
+
+```{python}
+min_support = 100
+frequent_1 = defaultdict(int)
+
+for item in data:
+
+    for record in item:
+        
+           frequent_1[frozenset([record])] += 1
+
+frequent_1 = {v:frequent_1[v] for v in frequent_1 if frequent_1[v] >= min_support}
+```
+
+```{python}
+print (len(frequent_1))
+frequent_1
+```
+
+### Generate frequent k-item sets
+We use the `getFrequentItemSetWithSupport()` function to complete the connection steps and pruning steps in the `APRIOR` algorithm.
+
+```{python}
+def getSubset(item, k):
+    
+    import itertools as its
+    return [frozenset(item) for item in its.combinations(item, k)]
+
+# when k >= 2
+def getFrequentItemSetWithSupport(frequent_k, min_support, k, item_list):
+    
+    from collections import defaultdict
+    items = frequent_k.keys()
+    
+    #K-item candidate collection
+    candidate_items = []
+    
+    current_k = defaultdict(int)
+
+    ### Connect steps to generate a candidate set
+    candidate_items = set([m.union(n) for m in items for n in items if m != n and len(m.union(n)) == k])
+    
+    ### Pruning step, eliminate the item set containing non-frequent item subsets
+    final_candidate = set()
+    for candidate in candidate_items:
+        
+        sub_items = getSubset(candidate, (k - 1))
+    
+        if any([item < candidate for item in sub_items]):  
+            
+            final_candidate.add(candidate)
+            
+        else:
+            continue
+         
+    # Traverse the data set data, count the elements in final_candidate, and retain frequent items with support greater than the minimum threshold.
+    for item in final_candidate:
+        
+        for record in item_list:
+        
+            #The data record contains frequent items.
+            if item.issubset(record):     
+                           
+                current_k[item] += 1
+            else:
+                continue
+    #print 'current_candidate: ', current_k
+    return {v: current_k[v] for v in current_k if current_k[v] >= min_support}  
+```
+
+In this case, we choose the upper limit of the k value to 5 and repeatedly call the above function to generate frequent k item sets.
+
+```{python}
+upper_bound = 5
+final_itemsets= []
+final_itemsets.append(frequent_1)
+min_conf = 0.4
+
+frequent_k_minus_1 = frequent_1
+
+k = 2
+while k <= upper_bound:
+    #print frequent_k_minus_1
+    #print ""
+    frequent_k = getFrequentItemSetWithSupport(frequent_k_minus_1, min_support, k, data)
+    final_itemsets.append(frequent_k)
+    frequent_k_minus_1 = frequent_k
+    k += 1
+```
+
+```{python}
+final_itemsets
+```
+
+Starting from k=4, the set of frequent items is empty, that is to say, at a given minimum support level, there are at most 3 sets of frequent items in the data set.
+
+
+### Generate association rules
+After generating the set of frequent items, we can directly obtain the strong association rules that satisfy both the minimum support and the minimum confidence. For example, for the frequent set {'A','B'}, the confidence of the associated rule A→B is as follows:
+
+
+```{python}
+def getAllSubsets(item):
+    
+    subsets = []
+    
+    for i in range(len(item) - 1):
+    
+        subsets.extend(getSubset(item, i + 1))
+                       
+    return subsets
+```
+
+```{python}
+association_rules = []
+for item_set in final_itemsets[1:]:
+    if len(item_set) == 0:
+        continue
+    for value in item_set:
+        print('frequent item set: ', value)
+        #Shape like if condition, then conclusion
+        for condition in getAllSubsets(value):
+            print('    condition: ', condition, end='')
+            conclusion_items = frozenset(x for x in value if x not in condition)
+            print('    conclusion: ', conclusion_items, end='')
+            
+            if len(conclusion_items) > 0:
+                    
+                confidence = float(final_itemsets[len(value) - 1][value])/final_itemsets[len(condition) - 1][condition]
+                print(confidence)
+                if confidence > min_conf:
+                        
+                    association_rules.append([[condition, conclusion_items],
+                                           confidence])
+                print('')
+```
+
+```{python}
+association_rules
+```
+
+### Frequency pattern tree growth algorithm
+First of all, we construct the classes needed to create an FP tree: Node and FPTree.
+
+```{python}
+class Node:
+    
+    def __init__(self, name, count, parent):
+        self.name = name
+        self.count = count
+        self.link = None
+        self.parent = parent
+        self.children = {}
+        
+    def increment(self, num):
+        self.count += num
+
+    def display(self, lens = 1):
+        print ('   '*lens, self.name, ' ', self.count)
+        for child in self.children.values():
+            child.display(lens + 1)
+```
+
+```{python}
+class FPTree:
+
+    def __init__(self, transactions, min_support, root_value, count, flag):
+        
+        self.flag = flag
+        self.root = Node(root_value, count, None)   
+        self.data = transactions
+        self.data_type = type(self.data) 
+        self.min_support = min_support      
+       
+        self.frequent = self.find_frequent_items()
+            
+        self.headerTable = {v:[self.frequent[v], None] for v in self.frequent}
+    
+    def find_frequent_items(self):
+    
+        from collections import defaultdict
+        freq1 = defaultdict(int)
+
+        #Count the frequency of each element in the list
+        if self.data_type == list and self.flag == 'fptree':
+            
+            flatten_list = [element for item in self.data for element in item]
+            for value in flatten_list:
+                freq1[frozenset([value])] += 1
+        # Conditional FP tree
+        elif self.data_type == dict and self.flag == 'cfptree':
+            for item in self.data:
+                for element in item:
+                    
+                    if type(element) == frozenset:
+                        freq1[element] += self.data[item]
+                    else:
+                        freq1[frozenset([element])] += self.data[item]
+    
+        # Filter out non-frequent items
+        return {v:freq1[v] for v in freq1 if freq1[v] >= self.min_support}
+    
+    def build_tree(self):
+    
+        root = Node('null', 1, None)
+        sorted_headertable = [v[0] for v in sorted(self.frequent.items(), key=lambda kv: (-kv[1], list(kv[0])[0]))]
+        # Insert each record in the business database into the tree and update the frequent item table.
+        for record in self.data:
+            
+            # Find the frequent items in the business data record
+            
+            sorted_items = [item for item in sorted_headertable if list(item)[0] in record]
+            #print u'Put the sorted set of frequent items into the FP tree: '
+            #print sorted_items
+            #print ''
+            node = self.root        
+            while len(sorted_items) > 0:
+            
+                first_value = sorted_items[0]
+                
+                #print u' Start inserting the node ', first_value 
+                if  first_value in node.children:
+                    #print u'    The sub-nodes of the current node contain nodes. ', first_value
+                    if self.data_type == list:             
+                        node.children[first_value].increment(1)
+                    elif self.data_type == dict:
+                        node.children[first_value].increment(self.data[record])
+    
+                else:
+                    # Create a new subnode 
+                    #print u'    Create a new node ', first_value
+                    if self.data_type == list:             
+                        node.children[first_value] = Node(list(first_value)[0], 1, node)
+                    elif self.data_type == dict:
+                        node.children[first_value] = Node(first_value, self.data[record], node)
+            
+                    # Update the frequent item table
+                    if self.headerTable[first_value][1] == None:
+                        #print u'    In the frequent item table, add the first node corresponding to the linked list.', first_value
+                        self.headerTable[first_value][1] = node.children[first_value]
+                        
+                    else:
+                        #print u'    Add it to the end of the linked list corresponding to the frequent item list'
+                        currentNode = self.headerTable[first_value][1]
+               
+                        # Traverse the connected table to ensure that a new node pointer is inserted at the end of the table.
+                        while currentNode.link != None:
+                            
+                            currentNode = currentNode.link
+                        currentNode.link = node.children[first_value]
+                #print '***********'
+                sorted_items.pop(0)
+                node = node.children[first_value]
+            #print ''
+
+    def get_tree(self):
+        return self.root
+    def get_frequent_items(self):
+        return self.frequent
+    def get_headertable(self):
+        return self.headerTable
+    def get_data(self):
+        return self.data
+    
+    def show(self, depth = 1):
+        print (' '*depth, self.root.name, ' ', self.root.count)
+        for node in self.root.children.values():
+            node.display(depth + 1)  
+```
+
+```{python}
+#Minimum support
+min_support = 100
+
+#Create an instance
+fptree = FPTree(data, min_support, 'null', 1, 'fptree')
+```
+
+Then, we can return the frequent 1-item set set of the data set.
+
+```{python}
+freq1 = fptree.get_frequent_items()
+freq1
+```
+
+```{python}
+fptree.build_tree()
+```
+
+After the FP tree is created, we construct the `mine_tree()` function to realise the mining process of the FP tree.
+
+- The `find_prefix()` function returns all paths with the current node as the suffix in the FP book, and constructs the conditional pattern library.
+
+- `Mine_tree()` function recursively mines the conditional FP tree constructed on the basis of the conditional pattern library
+
+```{python}
+def find_prefix(node):
+  
+    #Conditional mode library
+    cpb = {}
+    suffix_list = []
+
+    # Judge whether the tail of the linked list has been reached.
+    while node != None:
+        suffix_list.append(node)
+        node = node.link
+   
+    for item in suffix_list:
+
+        path = []
+        num = item.count
+        # Judge the conditions, whether it has been traced back to the top of the tree
+        while item.parent != None:
+            path.append(item.name)
+            item = item.parent
+      
+        # Remove the part of the current node as the conditional mode base, and take the support of the current node as the support of the conditional mode library.
+        cpb[frozenset(path[1:])] = num
+        
+    return cpb     
+```
+
+```{python}
+def mine_tree(frequent_items, headerTable, min_support, frequent, item_list):
+    
+    # The elements in the frequent term table are arranged in descending order
+    candidates = [v[0] for v in sorted(frequent_items.items(), key=lambda kv: (-kv[1], list(kv[0])[0]))]
+    #print candidates
+    for item in candidates[::-1]:
+        
+        #Start with the following elements
+        #print 'from the node: ', item
+        # Generate frequent item sets for each conditional pattern library
+        freq_set = frequent.copy() 
+        freq_set.add(item)
+        item_list.append(freq_set)
+        
+        # Generate a conditional pattern library
+        cpbs = find_prefix(headerTable[item][1])
+       
+        #print 'its cpbs: ', cpbs
+        #Create a conditional FP tree
+        cTree = FPTree(cpbs, min_support, 'root', 1, 'cfptree')
+        
+        cTree.build_tree()
+       
+        #print '-----headerTable: ', cTree.get_headertable()
+        #Judgement condition: the frequent item table is empty
+        if len(cTree.get_headertable()) != 0:
+            #print 'condtional tree for: ', freq_set
+            #cTree.show(1)    
+            mine_tree(cTree.get_frequent_items(), cTree.get_headertable(), min_support, freq_set, item_list)
+```
+
+After constructing the FP tree according to the original data set, you can get the node `root_node` of the FP tree, the frequent item table `headertable`, and the frequent 1-item set collection `freq_items`.
+
+Take these variables as input parameters into the function `mine_tree()` function, and turn the generated set of frequent items into the list variable `frequent_item`.
+
+```{python}
+frequent_item = []
+frequent = set()
+
+root_node = fptree.get_tree()
+headertable = fptree.get_headertable()
+freq_items = fptree.get_frequent_items()
+mine_tree(freq_items, headertable, min_support, frequent, frequent_item)
+```
+
+Print the content of the `requent_item`. From this, we can find that the goods sold in the mall are popular with customers, such as yoghurt, soda, etc. Of course, we also find that customers usually buy whole milk and yourgurt together. For more information, you can continue to analyse the content of `frequent_item`.
+
+```{python}
+frequent_item 
+```
+
