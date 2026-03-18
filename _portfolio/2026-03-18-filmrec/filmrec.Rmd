@@ -1,6 +1,6 @@
 ---
 title: "Film Recommendation"
-description: "A association rule mining project"
+description: "An association rule mining project"
 author:
   - name: "Longxiang Wu"
 date: 2024-09-01
